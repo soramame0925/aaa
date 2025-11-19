@@ -27,24 +27,25 @@ $sale_active   = $sale_price && ( ! $sale_end_date || ( $sale_end_date && strtot
 $sale_end_display = '';
 if ( $sale_end_date ) {
     $sale_end_timestamp = strtotime( $sale_end_date );
-    $formatted_date     = $sale_end_timestamp ? wp_date( 'Y年m月d日', $sale_end_timestamp ) : $sale_end_date;
-    $sale_end_display   = sprintf( esc_html__( 'セール終了：%sまで', 'mno-post-manager' ), esc_html( $formatted_date ) );
+    $sale_end_display   = $sale_end_timestamp ? date_i18n( 'Y年n月j日', $sale_end_timestamp ) : $sale_end_date;
 }
 
 $price_markup = '';
-if ( $sale_end_display ) {
-            $price_markup .= '<p class="mno-pm-price__end">' . $sale_end_display . '</p>';
+if ( $sale_price || $normal_price || $sale_end_display ) {
+    $price_markup .= '<div class="mno-pm-price">';
     if ( $sale_active && $sale_price ) {
         $price_markup .= '<p class="mno-pm-price__sale"><span class="mno-pm-price__label">' . esc_html__( 'Sale', 'mno-post-manager' ) . '</span>' . esc_html( $sale_price ) . '</p>';
         if ( $normal_price ) {
             $price_markup .= '<p class="mno-pm-price__normal">' . esc_html( $normal_price ) . '</p>';
         }
-        if ( $sale_end_date ) {
-            $price_markup .= '<p class="mno-pm-price__end">' . sprintf( esc_html__( 'Until %s', 'mno-post-manager' ), esc_html( $sale_end_date ) ) . '</p>';
-        }
     } elseif ( $normal_price ) {
         $price_markup .= '<p class="mno-pm-price__normal mno-pm-price__normal--only">' . esc_html( $normal_price ) . '</p>';
     }
+
+    if ( $sale_end_display ) {
+        $price_markup .= '<p class="mno-pm-price__end">セール終了：' . esc_html( $sale_end_display ) . 'まで</p>';
+    }
+
     $price_markup .= '</div>';
 }
 
