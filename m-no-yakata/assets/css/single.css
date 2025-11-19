@@ -32,10 +32,10 @@ body.single,
 }
 
 .mno-single-title {
-  text-align: center;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
-  margin: 24px auto 16px;
-  line-height: 1.3;
+  text-align: left;
+  font-size: clamp(0.95rem, 4vw, 1.125rem);
+  margin: 0;
+  line-height: 1.4;
 }
 
 .mno-pm-article {

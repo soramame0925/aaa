@@ -9,7 +9,9 @@
         <?php
         $custom_title = get_post_meta( get_the_ID(), '_mpm_custom_title', true );
         $display_title = '' !== $custom_title ? $custom_title : get_the_title();
-        $title_markup = '<h1 class="mno-single-title">' . esc_html( $display_title ) . '</h1>';
+        $title_markup  = '<section class="mno-pm-article__section mno-title-block">';
+        $title_markup .= '<h1 class="mno-single-title">' . esc_html( $display_title ) . '</h1>';
+        $title_markup .= '</section>';
 
         if ( function_exists( 'mno_pm_render_single_template' ) ) {
           $single_content = mno_pm_render_single_template( get_the_ID() );
@@ -19,7 +21,7 @@
 
             $single_content = preg_replace(
               '/(<section\s+class="mno-pm-article__section\s+mno-pm-article__gallery"[^>]*>.*?<\/section>)/s',
-              '$1' . $title_markup,
+              $title_markup . '$1',
               $single_content,
               1
             );
