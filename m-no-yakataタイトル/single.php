@@ -21,13 +21,13 @@
 
             $single_content = preg_replace(
               '/(<section\s+class="mno-pm-article__section\s+mno-pm-article__gallery"[^>]*>.*?<\/section>)/s',
-              $title_markup . '$1',
+               '$1' . $title_markup,
               $single_content,
               1
             );
 
             if ( null === $single_content ) {
-              $single_content = $title_markup . $original_content;
+               $single_content = $original_content . $title_markup;
             }
           } else {
             $single_content = $title_markup . $single_content;
