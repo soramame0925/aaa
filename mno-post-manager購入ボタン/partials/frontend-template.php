@@ -21,6 +21,66 @@ $data_level     = isset( $data['data_level'] ) ? $data['data_level'] : '';
 $voice_types    = MNO_Post_Manager::get_voice_type_options();
 $level_labels   = MNO_Post_Manager::get_level_options();
 
+$genre_fallback_items = [];
+if ( is_array( $genre ) ) {
+    $genre_fallback_items = array_filter( array_map( 'trim', $genre ), 'strlen' );
+} elseif ( is_string( $genre ) && '' !== $genre ) {
+    $genre_fallback_items = array_filter( array_map( 'trim', preg_split( "/[,、\n\/]+/u", $genre ) ), 'strlen' );
+}
+
+if ( ! function_exists( 'mno_pm_get_taxonomy_links' ) ) {
+    /**
+     * Retrieve linked taxonomy markup for the first taxonomy that has terms.
+     *
+     * @param int   $post_id     Post ID.
+     * @param array $taxonomies  Candidate taxonomies in priority order.
+     * @param string $link_class Class attribute for each link.
+     *
+     * @return string HTML markup for the links or empty string.
+     */
+    function mno_pm_get_taxonomy_links( $post_id, array $taxonomies, $link_class = 'mno-link-tag' ) {
+        foreach ( $taxonomies as $taxonomy ) {
+            $terms = get_the_terms( $post_id, $taxonomy );
+            if ( empty( $terms ) || is_wp_error( $terms ) ) {
+                continue;
+            }
+
+            $links = [];
+            foreach ( $terms as $term ) {
+                $term_link = get_term_link( $term );
+                if ( is_wp_error( $term_link ) ) {
+                    continue;
+                }
+
+                $links[] = sprintf(
+                    '<a class="%s" href="%s">%s</a>',
+                    esc_attr( $link_class ),
+                    esc_url( $term_link ),
+                    esc_html( $term->name )
+                );
+            }
+
+            if ( $links ) {
+                return implode( '', $links );
+            }
+        }
+
+        return '';
+    }
+}
+
+$post_id = get_the_ID();
+
+$circle_taxonomies      = [ 'circle', 'circle-name', 'circle_name', 'mno_circle' ];
+$voice_actor_taxonomies = [ 'voice_actor', 'voice-actor', 'voice_actors', 'mno_voice_actor' ];
+$illustrator_taxonomies = [ 'illustrator', 'illustrators', 'artist', 'mno_illustrator' ];
+$genre_taxonomies       = [ 'genre', 'genres', 'mno_genre' ];
+
+$circle_links_markup      = mno_pm_get_taxonomy_links( $post_id, $circle_taxonomies );
+$voice_links_markup       = mno_pm_get_taxonomy_links( $post_id, $voice_actor_taxonomies );
+$illustrator_links_markup = mno_pm_get_taxonomy_links( $post_id, $illustrator_taxonomies );
+$genre_links_markup       = mno_pm_get_taxonomy_links( $post_id, $genre_taxonomies );
+
 $now_timestamp = current_time( 'timestamp' );
 $sale_active   = $sale_price && ( ! $sale_end_date || ( $sale_end_date && strtotime( $sale_end_date . ' 23:59:59' ) >= $now_timestamp ) );
 
@@ -124,13 +184,81 @@ if ( $buy_url ) {
 
     <section class="mno-pm-article__section">
         <h2>サークル情報</h2>
-        <ul class="mno-pm-list">
-            <li><span>サークル名：</span><?php echo $circle_name ? esc_html( $circle_name ) : '&mdash;'; ?></li>
-            <li><span>声優：</span><?php echo $voice_actors ? esc_html( implode( ' / ', $voice_actors ) ) : '&mdash;'; ?></li>
-            <li><span>価格：</span><?php echo $sale_active && $sale_price ? esc_html( $sale_price ) : ( $normal_price ? esc_html( $normal_price ) : '&mdash;' ); ?></li>
-            <li><span>イラスト：</span><?php echo $illustrators ? esc_html( implode( ' / ', $illustrators ) ) : '&mdash;'; ?></li>
-            <li><span>発売日：</span><?php echo $release_date ? esc_html( $release_date ) : '&mdash;'; ?></li>
-            <li><span>ジャンル：</span><?php echo $genre ? esc_html( $genre ) : '&mdash;'; ?></li>
+         <ul class="mno-pm-list mno-circle-info-list">
+            <li class="mno-item">
+                <span class="mno-item-label">サークル名：</span>
+                <span class="mno-item-value">
+                    <?php if ( $circle_links_markup ) : ?>
+                        <?php echo $circle_links_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                    <?php elseif ( $circle_name ) : ?>
+                        <span><?php echo esc_html( $circle_name ); ?></span>
+                    <?php else : ?>
+                        <span>&mdash;</span>
+                    <?php endif; ?>
+                </span>
+            </li>
+            <li class="mno-item">
+                <span class="mno-item-label">声優：</span>
+                <span class="mno-item-value">
+                    <?php if ( $voice_links_markup ) : ?>
+                        <?php echo $voice_links_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                    <?php elseif ( $voice_actors ) : ?>
+                        <span><?php echo esc_html( implode( ' / ', $voice_actors ) ); ?></span>
+                    <?php else : ?>
+                        <span>&mdash;</span>
+                    <?php endif; ?>
+                </span>
+            </li>
+            <li class="mno-item">
+                <span class="mno-item-label">価格：</span>
+                <span class="mno-item-value">
+                    <?php
+                    if ( $sale_active && $sale_price ) {
+                        echo esc_html( $sale_price );
+                    } elseif ( $normal_price ) {
+                        echo esc_html( $normal_price );
+                    } else {
+                        echo '&mdash;';
+                    }
+                    ?>
+                </span>
+            </li>
+            <li class="mno-item">
+                <span class="mno-item-label">イラスト：</span>
+                <span class="mno-item-value">
+                    <?php if ( $illustrator_links_markup ) : ?>
+                        <?php echo $illustrator_links_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                    <?php elseif ( $illustrators ) : ?>
+                        <span><?php echo esc_html( implode( ' / ', $illustrators ) ); ?></span>
+                    <?php else : ?>
+                        <span>&mdash;</span>
+                    <?php endif; ?>
+                </span>
+            </li>
+            <li class="mno-item">
+                <span class="mno-item-label">発売日：</span>
+                <span class="mno-item-value">
+                    <?php echo $release_date ? esc_html( $release_date ) : '&mdash;'; ?>
+                </span>
+            </li>
+            <li class="mno-item">
+                <span class="mno-item-label">ジャンル：</span>
+                <span class="mno-item-value">
+                    <?php if ( $genre_links_markup ) : ?>
+                        <div class="mno-genre-wrap">
+                            <?php echo $genre_links_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        </div>
+                    <?php elseif ( ! empty( $genre_fallback_items ) ) : ?>
+                        <div class="mno-genre-wrap">
+                            <?php foreach ( $genre_fallback_items as $genre_item ) : ?>
+                                <span class="mno-genre-fallback-item"><?php echo esc_html( $genre_item ); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else : ?>
+                        <span>&mdash;</span>
+                    <?php endif; ?>
+                </span>
+            </li>
         </ul>
     </section>
 
