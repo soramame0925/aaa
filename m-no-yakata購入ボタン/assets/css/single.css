@@ -1115,31 +1115,3 @@ html, body {
 body.mno-gallery-lightbox-open {
   overflow: hidden;
 }
-.single,
-body.single,
-.mno-single {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.mno-single {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px 80px;
-}
-
-.mno-container {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.mno-single__content {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-.single,
-body.single,
-.mno-single {
