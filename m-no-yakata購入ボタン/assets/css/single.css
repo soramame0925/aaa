@@ -1,3 +1,4 @@
+/* 投稿ページ全体ラッパー（スマホ基準で横幅と横スクロールを抑制） */
 .single,
 body.single,
 .mno-single {
@@ -6,24 +7,28 @@ body.single,
   overflow-x: hidden;
 }
 
+/* シングルページの内側コンテナ（スマホでも中央に収める余白設定） */
 .mno-single {
   max-width: 960px;
   margin: 0 auto;
   padding: 24px 16px 80px;
 }
 
+/* 汎用ラッパー（コンテンツが横に溢れないよう幅制御） */
 .mno-container {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
 }
 
+/* 記事本文コンテンツ枠（スマホで横スクロール防止） */
 .mno-single__content {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
 }
 
+/* 記事タイトル（スマホの読みやすさを意識したフォントサイズ） */
 .mno-single-title {
   text-align: left;
   font-size: clamp(0.95rem, 4vw, 1.125rem);
@@ -31,6 +36,7 @@ body.single,
   line-height: 1.4;
 }
 
+/* 記事セクション全体グリッド（スマホ縦並びレイアウト） */
 .mno-pm-article {
   display: grid;
   gap: 32px;
@@ -38,6 +44,7 @@ body.single,
   overflow-x: hidden;
 }
 
+/* 各セクションカード（スマホでのカード状表示と影） */
 .mno-pm-article__section {
   background: #ffffff;
   border-radius: 12px;
@@ -48,11 +55,13 @@ body.single,
 	 box-sizing: border-box;
 }
 
+/* ギャラリー以外のセクション余白をスマホ基準でリセット */
 .mno-pm-article__section:not(.mno-pm-article__gallery) {
   margin-left: 0;
   margin-right: 0;
 }
 
+/* 価格周りのコンテナと要素（スマホでの横はみ出し防止） */
 .mno-pm-article__section.mno-pm-article__price,
 .mno-pm-price,
 .mno-pm-price * {
@@ -61,6 +70,7 @@ body.single,
   box-sizing: border-box;
 }
 
+/* セクション見出し（スマホでも視認性を保つ左ライン） */
 .mno-pm-article__section h2 {
   font-size: 1.4rem;
   margin-bottom: 16px;
@@ -69,6 +79,7 @@ body.single,
   line-height: 1.3;
 }
 
+/* 音声プレイヤー（スマホ幅いっぱいにフィット） */
 .mno-pm-article__voice audio {
   width: 100%;
   border: none;
@@ -77,6 +88,7 @@ body.single,
   min-height: 140px;
 }
 
+/* 音声サンプル埋め込み（スマホ中央寄せの埋め込み枠） */
 .mno-voice-sample iframe {
   width: 100%;
   max-width: 360px;
@@ -87,6 +99,7 @@ body.single,
   border-radius: 8px;
 }
 
+/* ギャラリー・スライダー枠（スマホでも角丸を保ったカルーセル） */
 .mno-pm-slider,
 .mno-gallery {
   position: relative;
@@ -94,6 +107,7 @@ body.single,
   border-radius: 16px;
 }
 
+/* スワイプ可能なトラック（タッチ操作向けスクロールスナップ） */
 .mno-pm-slider__track,
 .mno-gallery-track {
   display: flex;
@@ -105,11 +119,13 @@ body.single,
   scrollbar-width: none;
 }
 
+/* スマホでスクロールバーを非表示 */
 .mno-pm-slider__track::-webkit-scrollbar,
 .mno-gallery-track::-webkit-scrollbar {
   display: none;
 }
 
+/* 各スライド（1画面に1枚だけ見せる横並び） */
 .mno-pm-slider__slide,
 .mno-gallery-slide {
   margin: 0;
@@ -121,6 +137,7 @@ body.single,
   justify-content: center;
 }
 
+/* スライド内の画像（スマホ幅いっぱいに拡大） */
 .mno-pm-slider__image,
 .mno-gallery img {
   width: 100%;
@@ -129,6 +146,7 @@ body.single,
 　cursor: zoom-in;
 }
 
+/* モーション軽減設定への配慮 */
 @media (prefers-reduced-motion: reduce) {
   .mno-pm-slider__track,
   .mno-gallery-track {
@@ -136,6 +154,7 @@ body.single,
   }
 }
 
+/* スマホ表示用：ギャラリーを画面幅いっぱいに広げる調整 */
 @media (max-width: 768px) {
   .mno-pm-article__section.mno-pm-article__gallery {
     margin-left: calc(50% - 50vw);
@@ -162,6 +181,7 @@ body.single,
   }
 }
 
+/* スライダー矢印（親指操作しやすい大きさと配置） */
 .mno-pm-slider__nav {
   position: absolute;
   top: 50%;
@@ -178,6 +198,7 @@ body.single,
   transition: background 0.2s ease;
   z-index: 2;
 }
+/* ギャラリー矢印（タップしやすい半透明ボタン） */
 .mno-gallery .slick-prev,
 .mno-gallery .slick-next,
 .mno-gallery-arrow {
@@ -218,19 +239,23 @@ body.single,
 
 }
 
+/* 作品スライダー矢印のホバー時カラー強調 */
 .mno-pm-slider__nav:not(.mno-gallery-arrow):hover,
 .mno-pm-slider__nav:not(.mno-gallery-arrow):focus {
   background: rgba(236, 72, 153, 0.9);
 }
 
+/* 前へ矢印の配置 */
 .mno-pm-slider__nav--prev {
   left: 12px;
 }
 
+/* 次へ矢印の配置 */
 .mno-pm-slider__nav--next {
   right: 12px;
 }
 
+/* スライダー下部ドット（スマホでのページ位置インジケータ） */
 .mno-pm-slider__dots {
   position: absolute;
   bottom: 12px;
@@ -241,6 +266,7 @@ body.single,
   z-index: 2;
 }
 
+/* ドットボタン（タップしやすい小粒サイズ） */
 .mno-pm-slider__dot {
   width: 10px;
   height: 10px;
@@ -251,10 +277,12 @@ body.single,
   cursor: pointer;
 }
 
+/* アクティブドットの色分け */
 .mno-pm-slider__dot.is-active {
   background: #f38ad5;
 }
 
+/* 購入セクション全体（スマホでは縦に積む） */
 .mno-pm-article__purchase {
   display: flex;
   flex-direction: column;
@@ -262,6 +290,7 @@ body.single,
   align-items: stretch;
 }
 
+/* 価格カード（スマホ中央寄せのカードレイアウト） */
 .mno-pm-price {
   display: flex;
   flex-direction: column;
@@ -278,6 +307,7 @@ body.single,
   width: 100%;
 }
 
+/* セール価格表示（スマホでも大きく強調） */
 .mno-pm-price__sale {
   font-size: clamp(1.8rem, 6vw, 2.3rem);
   color: #dc2626;
@@ -291,6 +321,7 @@ body.single,
   line-height: 1.1;
 }
 
+/* セールラベル（小さなピル型バッジ） */
 .mno-pm-price__label {
   display: inline-flex;
   align-items: center;
@@ -304,6 +335,7 @@ body.single,
   letter-spacing: 0.04em;
 }
 
+/* 通常価格（スマホで折り返しても見やすい控えめ表示） */
 .mno-pm-price__normal {
   font-size: 0.95rem;
   color: #9ca3af;
@@ -311,6 +343,7 @@ body.single,
   margin: 0;
 }
 
+/* 通常価格のみ表示時の強調スタイル */
 .mno-pm-price__normal--only {
   text-decoration: none;
   font-weight: 600;
@@ -318,6 +351,7 @@ body.single,
   font-size: 1.2rem;
 }
 
+/* セール終了文言（スマホで注意喚起する赤文字） */
 .mno-pm-price__end {
   font-size: 0.9rem;
   color: #dc2626;
@@ -326,6 +360,7 @@ body.single,
   letter-spacing: 0.04em;
 }
 
+/* 購入ボタン（スマホ全幅で押しやすい） */
 .mno-pm-buy-button {
   display: inline-flex;
   align-items: center;
@@ -346,12 +381,14 @@ body.single,
   box-sizing: border-box;
 }
 
+/* 購入ボタンのホバー・フォーカス演出 */
 .mno-pm-buy-button:hover,
 .mno-pm-buy-button:focus {
   transform: translateY(-2px);
   box-shadow: 0 16px 32px rgba(236, 72, 153, 0.4);
 }
 
+/* 購入不可状態のボタン */
 .mno-pm-buy-button--disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -359,6 +396,8 @@ body.single,
   background: #9ca3af;
 }
 
+/* PC表示用：購入エリアを横並びに変更 */
+/* PC表示用：データブロックとボイス表の幅調整 */
 @media (min-width: 768px) {
   .mno-pm-article__purchase {
     flex-direction: row;
@@ -383,11 +422,13 @@ body.single,
   }
 }
 
+/* トラック一覧カード群（スマホで縦積みグリッド） */
 .mno-pm-track-list {
   display: grid;
   gap: 16px;
 }
 
+/* 各トラックの行カード（スマホで余白を確保） */
 .mno-pm-track-list__item {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -398,6 +439,7 @@ body.single,
   gap: 8px;
 }
 
+/* トラック見出し行（スマホでラベルと値を横並び） */
 .mno-pm-track-list__title,
 .mno-pm-track-list__count,
 .mno-pm-track-list__genres {
@@ -407,6 +449,7 @@ body.single,
   align-items: baseline;
 }
 
+/* ラベル部分（スマホでも改行しやすい太字ラベル） */
 .mno-pm-track-list__label,
 .mno-pm-track-list__count-label {
   font-weight: 700;
@@ -415,21 +458,25 @@ body.single,
   overflow-wrap: anywhere;
 }
 
+/* トラック名・数値・ジャンルの本文 */
 .mno-pm-track-list__name,
 .mno-pm-track-list__count-value,
 .mno-pm-track-list__genres {
   color: #1f2937;
 }
 
+/* ジャンルテキスト（スマホで少し大きめ） */
 .mno-pm-track-list__genres {
   font-size: 0.95rem;
 }
 
+/* スマホ表示用：トラックカードのパディング微調整 */
 @media (max-width: 599px) {
   .mno-pm-track-list__item {
     padding: 14px 16px;
   }
 
+  /* スマホ表示用：ラベル行を折り返しやすくする */
   .mno-pm-track-list__title,
   .mno-pm-track-list__count,
   .mno-pm-track-list__genres {
@@ -437,6 +484,7 @@ body.single,
   }
 }
 
+/* データリスト（スマホで行間を広くしたテキスト一覧） */
 .mno-pm-list {
   list-style: none;
   margin: 0;
@@ -446,6 +494,7 @@ body.single,
   font-size: 1rem;
 }
 
+/* 項目行（スマホでラベルと値を横並び＆折り返し） */
 .mno-pm-list li {
   display: flex;
   flex-wrap: wrap;
@@ -453,37 +502,44 @@ body.single,
   line-height: 1.6;
 }
 
+/* 項目ラベル（スマホでも幅を確保） */
 .mno-pm-list li span {
   min-width: 110px;
   font-weight: 600;
   color: #6b7280;
 }
 
+/* 箇条書きリスト（スマホ向けドット表示） */
 .mno-pm-list--bullets {
   list-style: disc inside;
 }
 
+/* ナンバリングリスト（カスタムカウンター使用） */
 .mno-pm-list--numbered {
   list-style: none;
   counter-reset: mno-track;
 }
 
+/* ナンバリング各行の基本レイアウト */
 .mno-pm-list--numbered li {
   position: relative;
   padding-left: 0;
 }
 
+/* ナンバリング行のラベル強調 */
 .mno-pm-list--numbered li span {
   min-width: auto;
   font-weight: 600;
   color: #111827;
 }
 
+/* 引用ブロック一覧（スマホで縦に積むカード集） */
 .mno-quote-blocks {
   display: grid;
   gap: 24px;
 }
 
+/* 個別の引用カード（柔らかい背景と影で読みやすく） */
 .mno-quote-block {
   background: #f8fafc;
   border-radius: 14px;
@@ -493,12 +549,14 @@ body.single,
   gap: 12px;
 }
 
+/* 引用タイトル（スマホ向け中見出し） */
 .mno-quote-block h3 {
   margin: 0;
   font-size: 1.2rem;
   color: #1f2937;
 }
 
+/* 引用メタ情報（スマホで行間を広く） */
 .mno-quote-block__meta {
   margin: 0;
   font-size: 0.95rem;
@@ -506,6 +564,7 @@ body.single,
   line-height: 1.7;
 }
 
+/* 引用本文（左線付きでスマホでも判読性UP） */
 .mno-quote-block blockquote {
   margin: 0;
   padding-left: 16px;
@@ -516,10 +575,12 @@ body.single,
   line-height: 1.75;
 }
 
+/* 引用本文内の段落リセット */
 .mno-quote-block blockquote p {
   margin: 0;
 }
 
+/* データ表示セクション全体（スマホで縦並び） */
 .mno-data-section {
   display: flex;
   flex-direction: column;
@@ -529,16 +590,19 @@ body.single,
   overflow-x: hidden;
 }
 
+/* データブロックの縦積み間隔 */
 .mno-data-section > .mno-data-block {
   width: 100%;
   max-width: 100%;
   margin-bottom: 24px;
 }
 
+/* 最終ブロックのマージン調整 */
 .mno-data-section > .mno-data-block:last-of-type {
   margin-bottom: 0;
 }
 
+/* 各データカード（スマホ向け縦配置と余白） */
 .mno-data-block {
   display: flex;
   flex-direction: column;
@@ -548,18 +612,21 @@ body.single,
   overflow-x: hidden;
 }
 
+/* 棒グラフ・ボイス表・レベル表のラッパー */
 .mno-data-block--bars,
 .mno-data-block--voice,
 .mno-data-block--level {
   width: 100%;
 }
 
+/* データブロックの見出し */
 .mno-data-block h3 {
   font-size: 1.1rem;
   margin-bottom: 12px;
   color: #0f172a;
 }
 
+/* 棒グラフリスト（スマホで1列表示） */
 .mno-data-bar-chart {
   display: grid;
   gap: 16px;
@@ -567,6 +634,7 @@ body.single,
   max-width: 100%;
 }
 
+/* 各棒グラフ行（ラベルと数値を上下に配置） */
 .mno-data-bar {
   display: grid;
   gap: 8px 16px;
@@ -579,6 +647,7 @@ body.single,
   max-width: 100%;
 }
 
+/* 棒グラフのラベル行（スマホで折り返しやすく） */
 .mno-data-label {
   grid-area: label;
   display: flex;
@@ -590,11 +659,13 @@ body.single,
   max-width: 100%;
 }
 
+/* ラベルテキスト（長文も折り返し） */
 .mno-data-label-text {
   color: #111827;
   overflow-wrap: anywhere;
 }
 
+/* トラック数バッジ（スマホで目立つチップ） */
 .mno-data-track {
   display: inline-flex;
   align-items: center;
@@ -608,6 +679,7 @@ body.single,
   overflow: hidden;
 }
 
+/* バーの土台（横幅を最大に確保） */
 .mno-data-bar-track {
   grid-area: track;
   position: relative;
@@ -619,6 +691,7 @@ body.single,
   max-width: 100%;
 }
 
+/* バーの塗り部分（割合に応じて伸縮） */
 .mno-data-bar-fill {
   position: absolute;
   top: 0;
@@ -630,6 +703,7 @@ body.single,
   border-radius: 999px;
 }
 
+/* 数値表示（スマホで右寄せ） */
 .mno-data-count {
   grid-area: count;
   font-size: 1rem;
@@ -638,6 +712,7 @@ body.single,
   text-align: right;
 }
 
+/* ボイス表全体（スマホで横スクロールなしに収める） */
 .mno-voice-chart {
   width: 100%;
   max-width: 100%;
@@ -645,6 +720,7 @@ body.single,
   padding-bottom: 8px;
 }
 
+/* ボイス表の行（スマホでも等幅グリッド） */
 .mno-voice-row {
   display: grid;
   grid-template-columns: minmax(120px, 1fr) repeat(var(--mno-voice-count, 1), minmax(0, 1fr));
@@ -656,11 +732,13 @@ body.single,
   max-width: 100%;
 }
 
+/* ボイス表ヘッダー行 */
 .mno-voice-row--header {
   font-weight: 700;
   color: #0f172a;
 }
 
+/* ボイス種別のヘッダーセル */
 .mno-voice-row--header .mno-voice-type {
   font-size: 0.9rem;
   line-height: 1.4;
@@ -669,17 +747,20 @@ body.single,
   overflow-wrap: anywhere;
 }
 
+/* 声優名セル */
 .mno-voice-name {
   font-weight: 600;
   color: #1f2937;
 }
 
+/* ボイス種別セル（ドット配置用） */
 .mno-voice-cell {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* ボイス可否ドット */
 .mno-voice-dot {
   width: 12px;
   height: 12px;
@@ -689,15 +770,19 @@ body.single,
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
+/* 利用可能ドットの強調色 */
 .mno-voice-dot.is-active {
   background: #f38ad5;
   border-color: #f38ad5;
 }
 
-.mno-voice-mobile {
+/* スマホ専用のボイス表アコーディオン */
+    /* スマホ用アコーディオン表示に切り替え */
+    .mno-voice-mobile {
   display: none;
 }
 
+/* レベル表示チャート（スマホでも横スクロールなし） */
 .mno-level-chart {
   --mno-level-steps: 3;
   position: relative;
@@ -710,6 +795,7 @@ body.single,
   overflow-x: hidden;
 }
 
+/* レベルチャートのベースライン */
 .mno-level-chart::before {
   content: "";
   position: absolute;
@@ -721,6 +807,7 @@ body.single,
   background: linear-gradient(90deg, #e5e7eb, #d1d5db);
 }
 
+/* 各レベルのステップカード */
 .mno-level-step {
   display: flex;
   flex-direction: column;
@@ -732,6 +819,7 @@ body.single,
   max-width: 100%;
 }
 
+/* レベル位置のドット */
 .mno-level-dot {
   width: 18px;
   height: 18px;
@@ -762,6 +850,7 @@ body.single,
   }
 }
 
+/* スマホ表示用：全体余白とボイス表レイアウトを最適化 */
 @media (max-width: 768px) {
   .mno-single {
     padding: 16px 12px 64px;
@@ -816,7 +905,8 @@ body.single,
     overflow: hidden;
   }
 
-  .mno-voice-mobile summary {
+    /* アコーディオン見出し（タップ領域を広く確保） */
+    .mno-voice-mobile summary {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -828,11 +918,13 @@ body.single,
     list-style: none;
   }
 
-  .mno-voice-mobile summary::-webkit-details-marker {
+    /* デフォルトの三角アイコンを非表示 */
+    .mno-voice-mobile summary::-webkit-details-marker {
     display: none;
   }
 
-  .mno-voice-mobile summary::after {
+    /* 開閉アイコン（矢印） */
+    .mno-voice-mobile summary::after {
     content: "";
     width: 12px;
     height: 12px;
@@ -845,16 +937,19 @@ body.single,
     flex-shrink: 0;
   }
 
-  .mno-voice-mobile[open] summary::after {
+    /* 開閉時の矢印回転 */
+    .mno-voice-mobile[open] summary::after {
     transform: rotate(135deg);
   }
 
-  .mno-voice-mobile__name {
+    /* 声優名表示 */
+    .mno-voice-mobile__name {
     font-size: 1rem;
     color: #111827;
   }
 
-  .mno-voice-mobile__types {
+    /* 対応ボイス種別の一覧 */
+    .mno-voice-mobile__types {
     margin-left: auto;
     flex: 1;
     display: flex;
@@ -866,13 +961,15 @@ body.single,
     text-align: right;
   }
 
-  .mno-voice-mobile__type-item {
+    /* 種別テキストの行 */
+    .mno-voice-mobile__type-item {
     display: block;
     line-height: 1.4;
     color: inherit;
   }
 
-  .mno-voice-mobile__content {
+    /* アコーディオンの中身（開閉アニメーション） */
+    .mno-voice-mobile__content {
     padding: 0 16px 16px;
     max-height: 0;
     opacity: 0;
@@ -880,12 +977,14 @@ body.single,
     transition: max-height 0.3s ease, opacity 0.3s ease;
   }
 
-  .mno-voice-mobile[open] .mno-voice-mobile__content {
+    /* 開いたときのコンテンツ最大高 */
+    .mno-voice-mobile[open] .mno-voice-mobile__content {
     max-height: 640px;
     opacity: 1;
   }
 
-  .mno-voice-mobile__list {
+    /* 内部リスト（スマホで縦並び） */
+    .mno-voice-mobile__list {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -894,7 +993,8 @@ body.single,
     list-style: none;
   }
 
-  .mno-voice-mobile__item {
+    /* 各ボイス項目の行 */
+    .mno-voice-mobile__item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -902,17 +1002,20 @@ body.single,
     border-bottom: 1px solid #f3f4f6;
   }
 
-  .mno-voice-mobile__item:last-child {
+    /* 最終行の罫線除去 */
+    .mno-voice-mobile__item:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
 
-  .mno-voice-mobile__dot {
+    /* スマホ用ドットサイズ調整 */
+    .mno-voice-mobile__dot {
     width: 10px;
     height: 10px;
   }
 
-  .mno-voice-mobile__label {
+    /* ボイス種別ラベル */
+    .mno-voice-mobile__label {
     font-size: 0.95rem;
     color: #1f2937;
   }
@@ -958,10 +1061,12 @@ html, body {
   }
 }
 
+/* ライトボックス非表示状態 */
 .mno-gallery-lightbox[hidden] {
   display: none;
 }
 
+/* ギャラリー拡大表示用オーバーレイ（スマホ全画面センタリング） */
 .mno-gallery-lightbox {
   position: fixed;
   inset: 0;
@@ -975,11 +1080,13 @@ html, body {
   z-index: 999;
 }
 
+/* ライトボックス表示時のフェードイン */
 .mno-gallery-lightbox.is-visible {
   opacity: 1;
   visibility: visible;
 }
 
+/* ライトボックス内の画像枠（スマホ全幅に合わせる） */
 .mno-gallery-lightbox__figure {
   margin: 0;
   max-width: min(960px, 100%);
@@ -989,11 +1096,13 @@ html, body {
   opacity: 0.9;
 }
 
+/* 表示時にスケールアップするアニメーション */
 .mno-gallery-lightbox.is-visible .mno-gallery-lightbox__figure {
   transform: scale(1);
   opacity: 1;
 }
 
+/* 拡大画像自体のスタイル */
 .mno-gallery-lightbox__image {
   display: block;
   width: 100%;
@@ -1002,6 +1111,35 @@ html, body {
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
 }
 
+/* ライトボックス開閉時に背面スクロールを止める */
 body.mno-gallery-lightbox-open {
   overflow: hidden;
 }
+.single,
+body.single,
+.mno-single {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.mno-single {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+.mno-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.mno-single__content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.single,
+body.single,
+.mno-single {
