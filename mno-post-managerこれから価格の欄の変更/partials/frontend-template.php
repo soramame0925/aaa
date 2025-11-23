@@ -67,15 +67,16 @@ if ( '' !== $sale_end_date && null !== $sale_end_date ) {
     }
 }
 
-$sale_active = null !== $sale_price_numeric && $sale_end_timestamp && $now_timestamp <= $sale_end_timestamp;
+$sale_active = null !== $sale_price_numeric && $sale_end_timestamp && $now_timestamp < $sale_end_timestamp;
 
 $sale_end_display = '';
 if ( $sale_active && $sale_end_timestamp ) {
     $sale_end_display = date_i18n( 'Y年n月j日', $sale_end_timestamp );
 }
 
-$price_markup = '<div class="mno-pm-price">';
+$price_markup = '';
 if ( $sale_active ) {
+    $price_markup = '<div class="mno-pm-price">';
     $price_markup .= '<p class="mno-pm-price__sale"><span class="mno-pm-price__label">' . esc_html__( 'Sale', 'mno-post-manager' ) . '</span>' . esc_html( $sale_price_numeric ) . '</p>';
 
     if ( $normal_price ) {
@@ -85,10 +86,8 @@ if ( $sale_active ) {
     if ( $sale_end_display ) {
         $price_markup .= '<p class="mno-pm-price__end">セール終了 ' . esc_html( $sale_end_display ) . 'まで</p>';
     }
-
-}
-
 $price_markup .= '</div>';
+}
 
 $voice_sample_markup = '';
 if ( $voice_sample ) {
