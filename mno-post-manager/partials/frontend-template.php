@@ -352,12 +352,16 @@ if ( $buy_url ) {
                     $track_name    = isset( $track['track_name'] ) ? $track['track_name'] : '';
                     $count         = isset( $track['ejaculation_count'] ) ? $track['ejaculation_count'] : '';
                     $genres        = isset( $track['genres'] ) && is_array( $track['genres'] ) ? $track['genres'] : [];
+                    $duration      = isset( $track['track_duration'] ) ? $track['track_duration'] : '';
                     $count_display = '' !== $count && null !== $count ? (string) $count : '';
                     ?>
                     <div class="mno-pm-track-list__item">
                         <p class="mno-pm-track-list__title">
                             <span class="mno-pm-track-list__label"><?php printf( esc_html__( 'トラック%d', 'mno-post-manager' ), $index + 1 ); ?></span>
                             <span class="mno-pm-track-list__name"><?php echo $track_name ? esc_html( $track_name ) : '&mdash;'; ?></span>
+                             <?php if ( $duration ) : ?>
+                                <span class="mno-pm-track-list__duration"><?php echo '(' . esc_html( $duration ) . ')'; ?></span>
+                            <?php endif; ?>
                         </p>
                         <p class="mno-pm-track-list__count">
                             <span class="mno-pm-track-list__count-label"><?php esc_html_e( '射精回数', 'mno-post-manager' ); ?></span>

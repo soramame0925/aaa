@@ -178,6 +178,7 @@
                     <?php foreach ( $track_list as $index => $track ) :
                         $track_name = isset( $track['track_name'] ) ? $track['track_name'] : '';
                         $count      = isset( $track['ejaculation_count'] ) ? $track['ejaculation_count'] : '';
+                        $duration   = isset( $track['track_duration'] ) ? $track['track_duration'] : '';
                         $genres     = isset( $track['genres'] ) && is_array( $track['genres'] ) ? $track['genres'] : [];
                         $genres_val = $genres ? implode( '、', array_map( 'sanitize_text_field', $genres ) ) : '';
                         ?>
@@ -192,6 +193,18 @@
                                             class="widefat"
                                             name="mno_pm_track_list[<?php echo esc_attr( $index ); ?>][track_name]"
                                             value="<?php echo esc_attr( $track_name ); ?>"
+                                        />
+                                    </label>
+                                </p>
+                                 <p class="mno-pm-track-fields__duration">
+                                    <label class="mno-pm-track-fields__label">
+                                        <span class="mno-pm-track-fields__label-text"><?php esc_html_e( 'Duration (mm:ss)', 'mno-post-manager' ); ?></span>
+                                        <input
+                                            type="text"
+                                            class="small-text"
+                                            name="mno_pm_track_list[<?php echo esc_attr( $index ); ?>][track_duration]"
+                                            value="<?php echo esc_attr( $duration ); ?>"
+                                            placeholder="<?php esc_attr_e( '例：03:45', 'mno-post-manager' ); ?>"
                                         />
                                     </label>
                                 </p>
@@ -235,6 +248,12 @@
                             <label class="mno-pm-track-fields__label">
                                 <span class="mno-pm-track-fields__label-text"><?php esc_html_e( 'トラック名', 'mno-post-manager' ); ?></span>
                                 <input type="text" class="widefat" name="mno_pm_track_list[__index__][track_name]" value="" />
+                            </label>
+                        </p>
+                         <p class="mno-pm-track-fields__duration">
+                            <label class="mno-pm-track-fields__label">
+                                <span class="mno-pm-track-fields__label-text"><?php esc_html_e( 'Duration (mm:ss)', 'mno-post-manager' ); ?></span>
+                                <input type="text" class="small-text" name="mno_pm_track_list[__index__][track_duration]" value="" placeholder="<?php esc_attr_e( '例：03:45', 'mno-post-manager' ); ?>" />
                             </label>
                         </p>
                         <p class="mno-pm-track-fields__count">
