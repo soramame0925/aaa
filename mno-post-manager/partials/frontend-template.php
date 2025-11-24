@@ -358,7 +358,7 @@ if ( $buy_url ) {
                     <div class="mno-pm-track-list__item">
                         <p class="mno-pm-track-list__title">
                             <span class="mno-pm-track-list__label"><?php printf( esc_html__( 'トラック%d', 'mno-post-manager' ), $index + 1 ); ?></span>
-                           <span class="mno-pm-track-list__name"><?php echo $track_name ? esc_html( $track_name ) : '&mdash;'; ?></span>
+                            <span class="mno-pm-track-list__name"><?php echo $track_name ? nl2br( esc_html( $track_name ) ) : '&mdash;'; ?></span>
                              <?php if ( $duration ) : ?>
                                 <span class="mno-pm-track-list__duration"><?php echo '(' . esc_html( $duration ) . ')'; ?></span>
                             <?php endif; ?>

@@ -188,12 +188,11 @@
                                 <p>
                                     <label class="mno-pm-track-fields__label">
                                         <span class="mno-pm-track-fields__label-text"><?php esc_html_e( 'トラック名', 'mno-post-manager' ); ?></span>
-                                        <input
-                                            type="text"
+                                        <textarea
                                             class="widefat"
                                             name="mno_pm_track_list[<?php echo esc_attr( $index ); ?>][track_name]"
-                                            value="<?php echo esc_attr( $track_name ); ?>"
-                                        />
+                                            rows="2"
+                                        ><?php echo esc_textarea( $track_name ); ?></textarea>
                                     </label>
                                 </p>
                                  <p class="mno-pm-track-fields__duration">
@@ -247,7 +246,7 @@
                         <p>
                             <label class="mno-pm-track-fields__label">
                                 <span class="mno-pm-track-fields__label-text"><?php esc_html_e( 'トラック名', 'mno-post-manager' ); ?></span>
-                                <input type="text" class="widefat" name="mno_pm_track_list[__index__][track_name]" value="" />
+                                <textarea class="widefat" name="mno_pm_track_list[__index__][track_name]" rows="2"></textarea>
                             </label>
                         </p>
                          <p class="mno-pm-track-fields__duration">
