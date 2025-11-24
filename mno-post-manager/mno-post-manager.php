@@ -150,6 +150,8 @@ final class MNO_Post_Manager {
                         $count = (string) absint( $track['ejaculation_count'] );
                     }
 
+                    $duration = isset( $track['track_duration'] ) ? sanitize_text_field( $track['track_duration'] ) : '';
+
                     $genres      = [];
                     $genres_raw  = isset( $track['genres'] ) ? $track['genres'] : [];
                     if ( is_array( $genres_raw ) ) {
@@ -171,13 +173,14 @@ final class MNO_Post_Manager {
                         }
                     }
 
-                    if ( '' === $track_name && '' === $count && empty( $genres ) ) {
+                    if ( '' === $track_name && '' === $count && '' === $duration && empty( $genres ) ) {
                         continue;
                     }
 
                     $track_list[] = [
                         'track_name'         => $track_name,
                         'ejaculation_count'  => $count,
+                        'track_duration'     => $duration,
                         'genres'             => array_values( $genres ),
                     ];
                     continue;
@@ -192,6 +195,7 @@ final class MNO_Post_Manager {
                     $track_list[] = [
                         'track_name'         => $track_name,
                         'ejaculation_count'  => '',
+                        'track_duration'     => '',
                         'genres'             => [],
                     ];
                 }
@@ -413,6 +417,8 @@ final class MNO_Post_Manager {
                         $count = absint( $track['ejaculation_count'] );
                     }
 
+                    $duration = isset( $track['track_duration'] ) ? sanitize_text_field( $track['track_duration'] ) : '';
+
                     $genres     = [];
                     $genres_raw = isset( $track['genres'] ) ? $track['genres'] : '';
                     if ( is_array( $genres_raw ) ) {
@@ -434,13 +440,14 @@ final class MNO_Post_Manager {
                         }
                     }
 
-                    if ( '' === $track_name && '' === $count && empty( $genres ) ) {
+                    if ( '' === $track_name && '' === $count && '' === $duration && empty( $genres ) ) {
                         continue;
                     }
 
                     $track_list[] = [
                         'track_name'        => $track_name,
                         'ejaculation_count' => '' === $count ? '' : $count,
+                        'track_duration'    => $duration,
                         'genres'            => array_values( $genres ),
                     ];
                     continue;
@@ -455,6 +462,7 @@ final class MNO_Post_Manager {
                     $track_list[] = [
                         'track_name'        => $track_name,
                         'ejaculation_count' => '',
+                        'track_duration'    => '',
                         'genres'            => [],
                     ];
                 }
