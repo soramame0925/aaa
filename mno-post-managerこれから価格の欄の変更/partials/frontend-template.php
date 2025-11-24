@@ -74,6 +74,20 @@ if ( $sale_active && $sale_end_timestamp ) {
     $sale_end_display = date_i18n( 'Y年n月j日', $sale_end_timestamp );
 }
 
+$release_date_display = '&mdash;';
+if ( $release_date ) {
+    $release_date_object = DateTime::createFromFormat( 'Y-m-d', $release_date );
+
+    if ( $release_date_object instanceof DateTime ) {
+        $release_date_display = wp_date( 'Y年n月j日', $release_date_object->getTimestamp() );
+    } else {
+        $release_timestamp = strtotime( $release_date );
+        $release_date_display = false !== $release_timestamp ? wp_date( 'Y年n月j日', $release_timestamp ) : $release_date;
+    }
+}
+
+$release_date_output = '&mdash;' === $release_date_display ? $release_date_display : esc_html( $release_date_display );
+
 $price_markup = '';
 if ( $sale_active ) {
     $price_markup = '<div class="mno-pm-price">';
@@ -169,7 +183,7 @@ if ( $buy_url ) {
             <li><span>声優：</span><?php echo $render_terms( $voice_terms ); ?></li>
             <li><span>価格：</span><?php echo $sale_active && $sale_price ? esc_html( $sale_price ) : ( $normal_price ? esc_html( $normal_price ) : '&mdash;' ); ?></li>
             <li><span>イラスト：</span><?php echo $render_terms( $artist_terms ); ?></li>
-            <li><span>発売日：</span><?php echo $release_date ? esc_html( $release_date ) : '&mdash;'; ?></li>
+             <li><span>発売日：</span><?php echo $release_date_output; ?></li>
             <li><span>ジャンル：</span><?php echo $render_terms( $genre_terms ); ?></li>
         </ul>
     </section>
