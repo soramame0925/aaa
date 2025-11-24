@@ -365,44 +365,46 @@ if ( $buy_url ) {
                         </p>
                         <p class="mno-pm-track-list__genres">
                             <?php
-                            static $mno_pm_tag_map = null;
+                            if ( ! empty( $genres ) ) {
 
-                            if ( null === $mno_pm_tag_map ) {
-                                $tags = get_tags(
-                                    [
-                                        'hide_empty' => false,
-                                    ]
-                                );
+                                static $mno_pm_tag_map = null;
 
-                                $mno_pm_tag_map = [];
+                                if ( null === $mno_pm_tag_map ) {
+                                    $mno_pm_tag_map = [];
+                                    $all_tags = get_tags( [ 'hide_empty' => false ] );
 
-                                foreach ( $tags as $tag ) {
-                                    if ( $tag instanceof WP_Term ) {
-                                        $mno_pm_tag_map[ $tag->name ] = $tag;
-                                    }
-                                }
-                            }
-
-                            if ( empty( $genres ) ) {
-                                echo '&mdash;';
-                            } else {
-                                $genre_items = [];
-
-                                foreach ( $genres as $genre_label ) {
-                                    if ( isset( $mno_pm_tag_map[ $genre_label ] ) ) {
-                                        $genre_tag  = $mno_pm_tag_map[ $genre_label ];
-                                        $genre_link = get_tag_link( $genre_tag->term_id );
-
-                                        if ( ! is_wp_error( $genre_link ) ) {
-                                            $genre_items[] = '<a href="' . esc_url( $genre_link ) . '" class="mno-pm-track-genre">' . esc_html( $genre_label ) . '</a>';
-                                            continue;
+                                    if ( $all_tags && ! is_wp_error( $all_tags ) ) {
+                                        foreach ( $all_tags as $tag ) {
+                                            $mno_pm_tag_map[ $tag->name ] = $tag;
                                         }
                                     }
-
-                                    $genre_items[] = esc_html( $genre_label );
                                 }
 
-                                echo implode( '、', $genre_items );
+                                $output_genres = [];
+
+                                foreach ( $genres as $genre_item ) {
+                                    $parts = preg_split( '/[、,\/｜\|]+/u', $genre_item );
+
+                                    foreach ( $parts as $raw_part ) {
+                                        $label = trim( $raw_part );
+                                        if ( $label === '' ) continue;
+
+                                        if ( isset( $mno_pm_tag_map[ $label ] ) ) {
+                                            $term = $mno_pm_tag_map[ $label ];
+                                            $url  = get_tag_link( $term->term_id );
+                                            $output_genres[] =
+                                                '<a href="'. esc_url($url) .'" class="mno-track-genre">'
+                                                . esc_html($label) .
+                                                '</a>';
+                                        } else {
+                                            $output_genres[] = esc_html($label);
+                                        }
+                                    }
+                                }
+
+                                echo implode('　', $output_genres); // full-width space
+                            } else {
+                                echo '&mdash;';
                             }
                             ?>
                         </p>
