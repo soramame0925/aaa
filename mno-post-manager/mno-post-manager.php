@@ -114,7 +114,6 @@ final class MNO_Post_Manager {
             'sale_end_date'  => '',
             'highlights'     => [],
             'track_list'     => [],
-            'quote_blocks'   => [],
             'release_date'   => '',
             'genre'          => '',
             'track_duration' => '',
@@ -269,35 +268,6 @@ final class MNO_Post_Manager {
 
         $level = isset( $data['data_level'] ) ? sanitize_key( $data['data_level'] ) : '';
         $data['data_level'] = array_key_exists( $level, self::get_level_options() ) ? $level : '';
-
-        if ( is_array( $data['quote_blocks'] ) ) {
-            $quote_blocks = [];
-            foreach ( $data['quote_blocks'] as $block ) {
-                if ( ! is_array( $block ) ) {
-                    continue;
-                }
-
-                $heading      = isset( $block['heading'] ) ? sanitize_text_field( $block['heading'] ) : '';
-                $free_field_1 = isset( $block['free_field_1'] ) ? sanitize_text_field( $block['free_field_1'] ) : '';
-                $free_field_2 = isset( $block['free_field_2'] ) ? sanitize_text_field( $block['free_field_2'] ) : '';
-                $quote        = isset( $block['quote'] ) ? sanitize_textarea_field( $block['quote'] ) : '';
-
-                if ( '' === $heading && '' === $free_field_1 && '' === $free_field_2 && '' === $quote ) {
-                    continue;
-                }
-
-                $quote_blocks[] = [
-                    'heading'       => $heading,
-                    'free_field_1'  => $free_field_1,
-                    'free_field_2'  => $free_field_2,
-                    'quote'         => $quote,
-                ];
-            }
-
-            $data['quote_blocks'] = $quote_blocks;
-        } else {
-            $data['quote_blocks'] = [];
-        }
 
         $data['post_id'] = $post_id;
 
@@ -469,33 +439,6 @@ final class MNO_Post_Manager {
             }
         }
         update_post_meta( $post_id, self::META_PREFIX . 'track_list', $track_list );
-
-        $quote_blocks = [];
-        if ( isset( $_POST['mno_pm_quote_blocks'] ) && is_array( $_POST['mno_pm_quote_blocks'] ) ) {
-            foreach ( wp_unslash( $_POST['mno_pm_quote_blocks'] ) as $block ) {
-                if ( ! is_array( $block ) ) {
-                    continue;
-                }
-
-                $heading      = isset( $block['heading'] ) ? sanitize_text_field( $block['heading'] ) : '';
-                $free_field_1 = isset( $block['free_field_1'] ) ? sanitize_text_field( $block['free_field_1'] ) : '';
-                $free_field_2 = isset( $block['free_field_2'] ) ? sanitize_text_field( $block['free_field_2'] ) : '';
-                $quote        = isset( $block['quote'] ) ? sanitize_textarea_field( $block['quote'] ) : '';
-
-                if ( '' === $heading && '' === $free_field_1 && '' === $free_field_2 && '' === $quote ) {
-                    continue;
-                }
-
-                $quote_blocks[] = [
-                    'heading'       => $heading,
-                    'free_field_1'  => $free_field_1,
-                    'free_field_2'  => $free_field_2,
-                    'quote'         => $quote,
-                ];
-            }
-        }
-        update_post_meta( $post_id, self::META_PREFIX . 'quote_blocks', $quote_blocks );
-        delete_post_meta( $post_id, self::META_PREFIX . 'sample_lines' );
 
         $data_bars = [];
         if ( isset( $_POST['mno_pm_data_bars'] ) && is_array( $_POST['mno_pm_data_bars'] ) ) {
