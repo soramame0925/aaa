@@ -356,13 +356,17 @@ if ( $buy_url ) {
                     $count_display = '' !== $count && null !== $count ? (string) $count : '';
                     ?>
                     <div class="mno-pm-track-list__item">
-                        <p class="mno-pm-track-list__title">
-                            <span class="mno-pm-track-list__label"><?php printf( esc_html__( 'トラック%d', 'mno-post-manager' ), $index + 1 ); ?></span>
-                            <span class="mno-pm-track-list__name"><?php echo $track_name ? nl2br( esc_html( $track_name ) ) : '&mdash;'; ?></span>
-                             <?php if ( $duration ) : ?>
-                                <span class="mno-pm-track-list__duration"><?php echo '(' . esc_html( $duration ) . ')'; ?></span>
+                        <div class="mno-pm-track-top">
+                            <div class="mno-pm-track-number"><?php printf( esc_html__( 'トラック%d', 'mno-post-manager' ), $index + 1 ); ?></div>
+
+                            <div class="mno-pm-track-name">
+                                <?php echo $track_name ? nl2br( esc_html( trim( $track_name ) ) ) : '&mdash;'; ?>
+                            </div>
+
+                            <?php if ( $duration ) : ?>
+                                <div class="mno-pm-track-duration"><?php echo '(' . esc_html( $duration ) . ')'; ?></div>
                             <?php endif; ?>
-                        </p>
+                        </div>
                         <p class="mno-pm-track-list__count">
                             <span class="mno-pm-track-list__count-label"><?php esc_html_e( '射精回数', 'mno-post-manager' ); ?></span>
                             <span class="mno-pm-track-list__count-value"><?php echo '' !== $count_display ? esc_html( $count_display ) . esc_html__( '回', 'mno-post-manager' ) : '&mdash;'; ?></span>
