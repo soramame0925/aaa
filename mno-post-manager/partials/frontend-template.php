@@ -364,7 +364,47 @@ if ( $buy_url ) {
                             <span class="mno-pm-track-list__count-value"><?php echo '' !== $count_display ? esc_html( $count_display ) . esc_html__( '回', 'mno-post-manager' ) : '&mdash;'; ?></span>
                         </p>
                         <p class="mno-pm-track-list__genres">
-                            <?php echo ! empty( $genres ) ? esc_html( implode( '、', $genres ) ) : '&mdash;'; ?>
+                            <?php
+                            static $mno_pm_tag_map = null;
+
+                            if ( null === $mno_pm_tag_map ) {
+                                $tags = get_tags(
+                                    [
+                                        'hide_empty' => false,
+                                    ]
+                                );
+
+                                $mno_pm_tag_map = [];
+
+                                foreach ( $tags as $tag ) {
+                                    if ( $tag instanceof WP_Term ) {
+                                        $mno_pm_tag_map[ $tag->name ] = $tag;
+                                    }
+                                }
+                            }
+
+                            if ( empty( $genres ) ) {
+                                echo '&mdash;';
+                            } else {
+                                $genre_items = [];
+
+                                foreach ( $genres as $genre_label ) {
+                                    if ( isset( $mno_pm_tag_map[ $genre_label ] ) ) {
+                                        $genre_tag  = $mno_pm_tag_map[ $genre_label ];
+                                        $genre_link = get_tag_link( $genre_tag->term_id );
+
+                                        if ( ! is_wp_error( $genre_link ) ) {
+                                            $genre_items[] = '<a href="' . esc_url( $genre_link ) . '" class="mno-pm-track-genre">' . esc_html( $genre_label ) . '</a>';
+                                            continue;
+                                        }
+                                    }
+
+                                    $genre_items[] = esc_html( $genre_label );
+                                }
+
+                                echo implode( '、', $genre_items );
+                            }
+                            ?>
                         </p>
                     </div>
                 <?php endforeach; ?>
