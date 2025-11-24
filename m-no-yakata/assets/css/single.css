@@ -788,8 +788,8 @@ body.single,
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--mno-level-steps), minmax(0, 1fr));
-  gap: 16px;
-  padding-top: 20px;
+  gap: 10px;
+  padding-top: 16px;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -802,7 +802,7 @@ body.single,
   top: 14px;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   border-radius: 999px;
   background: linear-gradient(90deg, #e5e7eb, #d1d5db);
 }
@@ -821,10 +821,10 @@ body.single,
 
 /* レベル位置のドット */
 .mno-level-dot {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   border-radius: 999px;
-  border: 4px solid #cbd5f5;
+  border: 3px solid #cbd5f5;
   background: #ffffff;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
@@ -837,6 +837,7 @@ body.single,
 
 .mno-level-label {
   font-weight: 600;
+	font-size: 0.85rem;
   color: #0f172a;
 }
 
@@ -877,6 +878,21 @@ body.single,
 
   .mno-pm-list li span {
     min-width: 90px;
+  }
+	
+	.mno-level-chart {
+    gap: 8px;
+    padding-top: 14px;
+  }
+
+  .mno-level-dot {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+  }
+
+  .mno-level-label {
+    font-size: 0.75rem;
   }
 
   .mno-voice-chart {
