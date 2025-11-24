@@ -386,23 +386,23 @@ if ( $buy_url ) {
                                     $parts = preg_split( '/[、,\/｜\|]+/u', $genre_item );
 
                                     foreach ( $parts as $raw_part ) {
-                                        $label = trim( $raw_part );
+                                        $label = trim( str_replace( '、', '', $raw_part ) );
                                         if ( $label === '' ) continue;
 
                                         if ( isset( $mno_pm_tag_map[ $label ] ) ) {
                                             $term = $mno_pm_tag_map[ $label ];
                                             $url  = get_tag_link( $term->term_id );
                                             $output_genres[] =
-                                                '<a href="'. esc_url($url) .'" class="mno-track-genre">'
-                                                . esc_html($label) .
+                                               '<a href="' . esc_url( $url ) . '" class="mno-track-genre" style="display:inline-block;">'
+                                                . esc_html( $label ) .
                                                 '</a>';
                                         } else {
-                                            $output_genres[] = esc_html($label);
+                                            $output_genres[] = '<span class="mno-track-genre" style="display:inline-block;">' . esc_html( $label ) . '</span>';
                                         }
                                     }
                                 }
 
-                                echo implode('　', $output_genres); // full-width space
+                                echo implode( ' ', $output_genres );
                             } else {
                                 echo '&mdash;';
                             }
