@@ -143,7 +143,7 @@ final class MNO_Post_Manager {
         if ( is_array( $data['track_list'] ) ) {
             foreach ( $data['track_list'] as $track ) {
                 if ( is_array( $track ) ) {
-                    $track_name = isset( $track['track_name'] ) ? sanitize_text_field( $track['track_name'] ) : '';
+                    $track_name = isset( $track['track_name'] ) ? sanitize_textarea_field( $track['track_name'] ) : '';
 
                     $count = '';
                     if ( isset( $track['ejaculation_count'] ) && '' !== $track['ejaculation_count'] && null !== $track['ejaculation_count'] ) {
@@ -187,7 +187,7 @@ final class MNO_Post_Manager {
                 }
 
                 if ( is_string( $track ) ) {
-                    $track_name = sanitize_text_field( $track );
+                    $track_name = sanitize_textarea_field( $track );
                     if ( '' === $track_name ) {
                         continue;
                     }
@@ -410,7 +410,7 @@ final class MNO_Post_Manager {
         if ( isset( $_POST['mno_pm_track_list'] ) && is_array( $_POST['mno_pm_track_list'] ) ) {
             foreach ( wp_unslash( $_POST['mno_pm_track_list'] ) as $track ) {
                 if ( is_array( $track ) ) {
-                    $track_name = isset( $track['track_name'] ) ? sanitize_text_field( $track['track_name'] ) : '';
+                    $track_name = isset( $track['track_name'] ) ? sanitize_textarea_field( $track['track_name'] ) : '';
 
                     $count = '';
                     if ( isset( $track['ejaculation_count'] ) && '' !== $track['ejaculation_count'] && null !== $track['ejaculation_count'] ) {
@@ -454,7 +454,7 @@ final class MNO_Post_Manager {
                 }
 
                 if ( is_string( $track ) ) {
-                    $track_name = sanitize_text_field( $track );
+                    $track_name = sanitize_textarea_field( $track );
                     if ( '' === $track_name ) {
                         continue;
                     }
