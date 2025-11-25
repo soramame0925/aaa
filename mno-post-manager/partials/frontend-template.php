@@ -470,7 +470,7 @@ if ( $buy_url ) {
             <?php endif; ?>
 
             <?php if ( $dialogue_content ) : ?>
-                <div class="mno-dialogue-block__body">
+               <div class="mno-dialogue-block__body mno-speech-text">
                     <?php echo wpautop( esc_html( $dialogue_content ) ); ?>
                 </div>
             <?php endif; ?>
