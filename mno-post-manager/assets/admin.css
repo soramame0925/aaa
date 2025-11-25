@@ -93,6 +93,38 @@
   color: #1d2327;
 }
 
+.mno-pm-dialogue-block__image-select {
+  display: grid;
+  gap: 8px;
+}
+
+.mno-pm-dialogue-block__image-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mno-pm-dialogue-block__image-option {
+  border: 1px solid #dcdcde;
+  background: #f6f7f7;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 160px;
+}
+
+.mno-pm-dialogue-block__image-option input {
+  margin-right: 6px;
+}
+
+.mno-pm-dialogue-block__image-thumb img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+
 .mno-pm-dialogue-block__repeater {
   display: grid;
   gap: 8px;
