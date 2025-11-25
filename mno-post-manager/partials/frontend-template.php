@@ -443,7 +443,7 @@ if ( $buy_url ) {
 
             <?php if ( $dialogue_image ) : ?>
                 <div class="mno-dialogue-block__image">
-                    <?php echo wp_get_attachment_image( $dialogue_image, 'large' ); ?>
+                    <?php echo wp_get_attachment_image( $dialogue_image, 'large', false, [ 'class' => 'mno-dialogue-image' ] ); ?>
                 </div>
             <?php endif; ?>
 
