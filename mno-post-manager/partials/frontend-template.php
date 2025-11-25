@@ -426,18 +426,25 @@ if ( $buy_url ) {
 
     <?php
     $dialogue_title   = isset( $dialogue_block['main_title'] ) ? $dialogue_block['main_title'] : '';
+    $dialogue_image   = isset( $dialogue_block['image_id'] ) ? absint( $dialogue_block['image_id'] ) : 0;
     $track_desc       = isset( $dialogue_block['track_description'] ) ? $dialogue_block['track_description'] : '';
     $dialogue_tracks  = isset( $dialogue_block['track_list'] ) && is_array( $dialogue_block['track_list'] ) ? $dialogue_block['track_list'] : [];
     $dialogue_heads   = isset( $dialogue_block['subheadings'] ) && is_array( $dialogue_block['subheadings'] ) ? $dialogue_block['subheadings'] : [];
     $dialogue_content = isset( $dialogue_block['dialogue_body'] ) ? $dialogue_block['dialogue_body'] : '';
 
-    $has_dialogue_block = $dialogue_title || $track_desc || $dialogue_tracks || $dialogue_heads || $dialogue_content;
+    $has_dialogue_block = $dialogue_title || $dialogue_image || $track_desc || $dialogue_tracks || $dialogue_heads || $dialogue_content;
     ?>
 
     <?php if ( $has_dialogue_block ) : ?>
         <section class="mno-dialogue-block">
             <?php if ( $dialogue_title ) : ?>
                 <h2><?php echo nl2br( esc_html( $dialogue_title ) ); ?></h2>
+            <?php endif; ?>
+
+            <?php if ( $dialogue_image ) : ?>
+                <div class="mno-dialogue-block__image">
+                    <?php echo wp_get_attachment_image( $dialogue_image, 'large' ); ?>
+                </div>
             <?php endif; ?>
 
             <?php if ( $track_desc ) : ?>

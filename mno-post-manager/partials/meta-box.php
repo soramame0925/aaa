@@ -280,10 +280,12 @@
         <?php
         $dialogue_block   = isset( $values['dialogue_block'] ) && is_array( $values['dialogue_block'] ) ? $values['dialogue_block'] : [];
         $dialogue_title   = isset( $dialogue_block['main_title'] ) ? $dialogue_block['main_title'] : '';
+        $dialogue_image   = isset( $dialogue_block['image_id'] ) ? absint( $dialogue_block['image_id'] ) : 0;
         $track_desc       = isset( $dialogue_block['track_description'] ) ? $dialogue_block['track_description'] : '';
         $dialogue_tracks  = isset( $dialogue_block['track_list'] ) && is_array( $dialogue_block['track_list'] ) ? $dialogue_block['track_list'] : [];
         $dialogue_heads   = isset( $dialogue_block['subheadings'] ) && is_array( $dialogue_block['subheadings'] ) ? $dialogue_block['subheadings'] : [];
         $dialogue_content = isset( $dialogue_block['dialogue_body'] ) ? $dialogue_block['dialogue_body'] : '';
+        $dialogue_gallery = isset( $values['gallery'] ) && is_array( $values['gallery'] ) ? array_filter( array_map( 'absint', $values['gallery'] ) ) : [];
         ?>
         <h3><?php esc_html_e( 'セリフブロック', 'mno-post-manager' ); ?></h3>
         <div class="mno-pm-dialogue-block">
@@ -297,6 +299,44 @@
                     ><?php echo esc_textarea( $dialogue_title ); ?></textarea>
                 </label>
             </p>
+
+             <div class="mno-pm-dialogue-block__image-select">
+                <span class="mno-pm-dialogue-block__label"><?php esc_html_e( 'ギャラリーから画像を選択', 'mno-post-manager' ); ?></span>
+                <div class="mno-pm-dialogue-block__image-options">
+                    <label class="mno-pm-dialogue-block__image-option">
+                        <input
+                            type="radio"
+                            name="mno_pm_dialogue_block[image_id]"
+                            value=""
+                            <?php checked( '', $dialogue_image ); ?>
+                        />
+                        <span><?php esc_html_e( '画像を選択しない', 'mno-post-manager' ); ?></span>
+                    </label>
+
+                    <?php if ( $dialogue_gallery ) : ?>
+                        <?php foreach ( $dialogue_gallery as $attachment_id ) : ?>
+                            <?php $preview = wp_get_attachment_image( $attachment_id, 'thumbnail' ); ?>
+                            <?php if ( ! $preview ) : ?>
+                                <?php continue; ?>
+                            <?php endif; ?>
+                            <label class="mno-pm-dialogue-block__image-option">
+                                <input
+                                    type="radio"
+                                    name="mno_pm_dialogue_block[image_id]"
+                                    value="<?php echo esc_attr( $attachment_id ); ?>"
+                                    <?php checked( $dialogue_image, $attachment_id ); ?>
+                                />
+                                <span class="mno-pm-dialogue-block__image-thumb"><?php echo $preview; ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ( empty( $dialogue_gallery ) ) : ?>
+                    <p class="description"><?php esc_html_e( 'ギャラリーブロックに画像を追加するとここで選択できます。', 'mno-post-manager' ); ?></p>
+                <?php endif; ?>
+            </div>
+
 
             <p>
                 <label>
