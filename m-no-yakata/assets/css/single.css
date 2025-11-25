@@ -533,6 +533,53 @@ body.single,
   color: #111827;
 }
 
+/* 引用ブロック一覧（スマホで縦に積むカード集） */
+.mno-quote-blocks {
+  display: grid;
+  gap: 24px;
+}
+
+/* 個別の引用カード（柔らかい背景と影で読みやすく） */
+.mno-quote-block {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 12px;
+}
+
+/* 引用タイトル（スマホ向け中見出し） */
+.mno-quote-block h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1f2937;
+}
+
+/* 引用メタ情報（スマホで行間を広く） */
+.mno-quote-block__meta {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+/* 引用本文（左線付きでスマホでも判読性UP） */
+.mno-quote-block blockquote {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 3px solid #6366f1;
+  color: #111827;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+/* 引用本文内の段落リセット */
+.mno-quote-block blockquote p {
+  margin: 0;
+}
+
 /* データ表示セクション全体（スマホで縦並び） */
 .mno-data-section {
   display: flex;
@@ -811,6 +858,10 @@ body.single,
   }
 
   .mno-pm-article__section {
+    padding: 20px;
+  }
+
+  .mno-quote-block {
     padding: 20px;
   }
 

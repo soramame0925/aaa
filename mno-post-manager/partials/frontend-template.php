@@ -10,6 +10,7 @@ $sale_price     = isset( $data['sale_price'] ) ? $data['sale_price'] : '';
 $sale_end_date  = isset( $data['sale_end_date'] ) ? $data['sale_end_date'] : '';
 $highlights     = ! empty( $data['highlights'] ) ? $data['highlights'] : [];
 $track_list     = ! empty( $data['track_list'] ) ? $data['track_list'] : [];
+$quote_blocks   = ! empty( $data['quote_blocks'] ) ? $data['quote_blocks'] : [];
 $release_date   = isset( $data['release_date'] ) ? $data['release_date'] : '';
 $genre          = isset( $data['genre'] ) ? $data['genre'] : '';
 $track_duration = isset( $data['track_duration'] ) ? $data['track_duration'] : '';
@@ -422,6 +423,37 @@ if ( $buy_url ) {
             <p>&mdash;</p>
         <?php endif; ?>
     </section>
+
+    <?php if ( $quote_blocks ) : ?>
+        <section class="mno-pm-article__section mno-pm-article__quotes">
+            <div class="mno-quote-blocks">
+                <?php foreach ( $quote_blocks as $block ) :
+                    $heading      = isset( $block['heading'] ) ? $block['heading'] : '';
+                    $free_field_1 = isset( $block['free_field_1'] ) ? $block['free_field_1'] : '';
+                    $free_field_2 = isset( $block['free_field_2'] ) ? $block['free_field_2'] : '';
+                    $quote        = isset( $block['quote'] ) ? $block['quote'] : '';
+                    ?>
+                    <section class="mno-quote-block">
+                        <?php if ( $heading ) : ?>
+                            <h3><?php echo esc_html( $heading ); ?></h3>
+                        <?php endif; ?>
+
+                        <?php if ( $free_field_1 ) : ?>
+                            <p class="mno-quote-block__meta"><?php echo esc_html( $free_field_1 ); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ( $free_field_2 ) : ?>
+                            <p class="mno-quote-block__meta"><?php echo esc_html( $free_field_2 ); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ( $quote ) : ?>
+                            <blockquote><?php echo wpautop( esc_html( $quote ) ); ?></blockquote>
+                        <?php endif; ?>
+                    </section>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <section class="mno-pm-article__section">
         <h2>まとめ</h2>

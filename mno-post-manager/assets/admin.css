@@ -74,6 +74,37 @@
   gap: 8px;
 }
 
+.mno-pm-repeater__row--quote-block {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #dcdcde;
+  background: #f6f7f7;
+}
+
+.mno-pm-repeater__row--quote-block .mno-pm-repeater__handle {
+  align-self: flex-start;
+}
+
+.mno-pm-repeater__row--quote-block .mno-pm-repeater__remove {
+  align-self: flex-end;
+}
+
+.mno-pm-quote-block__fields {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.mno-pm-quote-block__fields p {
+  margin: 0;
+}
+
+.mno-pm-quote-block__fields p:last-child {
+  grid-column: 1 / -1;
+}
+
 .mno-pm-repeater__row textarea.widefat {
   min-height: 80px;
 }
@@ -148,6 +179,10 @@
 
 .mno-pm-repeater--textarea .mno-pm-repeater__placeholder {
   height: 120px;
+}
+
+.mno-pm-repeater--quote-block .mno-pm-repeater__placeholder {
+  height: 220px;
 }
 
 .mno-pm-meta--data .mno-pm-repeater__row--data,
