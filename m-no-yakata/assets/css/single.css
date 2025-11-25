@@ -533,51 +533,67 @@ body.single,
   color: #111827;
 }
 
-/* 引用ブロック一覧（スマホで縦に積むカード集） */
-.mno-quote-blocks {
+/* セリフブロック全体のカード */
+.mno-dialogue-block {
   display: grid;
-  gap: 24px;
-}
-
-/* 個別の引用カード（柔らかい背景と影で読みやすく） */
-.mno-quote-block {
+  gap: 16px;
   background: #f8fafc;
   border-radius: 14px;
   padding: 24px;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-  display: grid;
-  gap: 12px;
 }
 
-/* 引用タイトル（スマホ向け中見出し） */
-.mno-quote-block h3 {
+/* セリフブロックのメインタイトル */
+.mno-dialogue-block h2 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+/* セリフブロックの画像 */
+.mno-dialogue-block__image img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+/* トラック説明文 */
+.mno-dialogue-block__track-description {
+  margin: 0;
+  color: #374151;
+  line-height: 1.8;
+}
+
+/* トラックリスト */
+.mno-dialogue-block__track-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  list-style: disc;
   color: #1f2937;
 }
 
-/* 引用メタ情報（スマホで行間を広く） */
-.mno-quote-block__meta {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #4b5563;
-  line-height: 1.7;
+/* サブ見出しリスト */
+.mno-dialogue-block__subheadings {
+  display: grid;
+  gap: 8px;
 }
 
-/* 引用本文（左線付きでスマホでも判読性UP） */
-.mno-quote-block blockquote {
+.mno-dialogue-block__subheadings h3 {
   margin: 0;
-  padding-left: 16px;
-  border-left: 3px solid #6366f1;
+  font-size: 1.1rem;
   color: #111827;
-  font-size: 1.05rem;
-  font-style: italic;
-  line-height: 1.75;
 }
 
-/* 引用本文内の段落リセット */
-.mno-quote-block blockquote p {
-  margin: 0;
+/* セリフ本文 */
+.mno-dialogue-block__body {
+  color: #111827;
+  line-height: 1.8;
+}
+
+.mno-dialogue-block__body p {
+  margin: 0 0 12px;
 }
 
 /* データ表示セクション全体（スマホで縦並び） */
@@ -861,7 +877,7 @@ body.single,
     padding: 20px;
   }
 
-  .mno-quote-block {
+  .mno-dialogue-block {
     padding: 20px;
   }
 

@@ -277,105 +277,126 @@
     </section>
 
     <section class="mno-pm-meta__section">
+        <?php
+        $dialogue_block   = isset( $values['dialogue_block'] ) && is_array( $values['dialogue_block'] ) ? $values['dialogue_block'] : [];
+        $dialogue_title   = isset( $dialogue_block['main_title'] ) ? $dialogue_block['main_title'] : '';
+        $dialogue_image   = isset( $dialogue_block['image_id'] ) ? (int) $dialogue_block['image_id'] : 0;
+        $track_desc       = isset( $dialogue_block['track_description'] ) ? $dialogue_block['track_description'] : '';
+        $dialogue_tracks  = isset( $dialogue_block['track_list'] ) && is_array( $dialogue_block['track_list'] ) ? $dialogue_block['track_list'] : [];
+        $dialogue_heads   = isset( $dialogue_block['subheadings'] ) && is_array( $dialogue_block['subheadings'] ) ? $dialogue_block['subheadings'] : [];
+        $dialogue_content = isset( $dialogue_block['dialogue_body'] ) ? $dialogue_block['dialogue_body'] : '';
+        ?>
         <h3><?php esc_html_e( 'セリフブロック', 'mno-post-manager' ); ?></h3>
-        <div
-            class="mno-pm-repeater mno-pm-repeater--quote-block"
-            data-name="mno_pm_quote_blocks"
-            data-next-index="<?php echo isset( $values['quote_blocks'] ) ? esc_attr( count( $values['quote_blocks'] ) ) : 0; ?>"
-        >
-            <div class="mno-pm-repeater__rows">
-                <?php if ( ! empty( $values['quote_blocks'] ) ) : ?>
-                    <?php foreach ( $values['quote_blocks'] as $index => $block ) :
-                        $heading      = isset( $block['heading'] ) ? $block['heading'] : '';
-                        $free_field_1 = isset( $block['free_field_1'] ) ? $block['free_field_1'] : '';
-                        $free_field_2 = isset( $block['free_field_2'] ) ? $block['free_field_2'] : '';
-                        $quote        = isset( $block['quote'] ) ? $block['quote'] : '';
+        <div class="mno-pm-dialogue-block">
+            <p>
+                <label>
+                    <?php esc_html_e( 'メインタイトル', 'mno-post-manager' ); ?><br />
+                    <textarea
+                        name="mno_pm_dialogue_block[main_title]"
+                        class="widefat"
+                        rows="3"
+                    ><?php echo esc_textarea( $dialogue_title ); ?></textarea>
+                </label>
+            </p>
+
+            <div class="mno-pm-dialogue-block__media">
+                <span class="mno-pm-dialogue-block__label"><?php esc_html_e( '画像 (任意)', 'mno-post-manager' ); ?></span>
+                <div
+                    class="mno-pm-media<?php echo $dialogue_image ? ' has-image' : ''; ?>"
+                    data-placeholder="<?php echo esc_attr__( '画像が選択されていません', 'mno-post-manager' ); ?>"
+                >
+                    <div class="mno-pm-media__preview">
+                        <?php
+                        if ( $dialogue_image ) {
+                            echo wp_get_attachment_image( $dialogue_image, 'thumbnail' );
+                        } else {
+                            esc_html_e( '画像が選択されていません', 'mno-post-manager' );
+                        }
                         ?>
-                        <div class="mno-pm-repeater__row mno-pm-repeater__row--quote-block">
-                            <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
-                            <div class="mno-pm-quote-block__fields">
-                                <p>
-                                    <label>
-                                        <?php esc_html_e( '自由な見出し', 'mno-post-manager' ); ?><br />
-                                        <input
-                                            type="text"
-                                            name="mno_pm_quote_blocks[<?php echo esc_attr( $index ); ?>][heading]"
-                                            class="widefat"
-                                            value="<?php echo esc_attr( $heading ); ?>"
-                                        />
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <?php esc_html_e( '任意の補足・説明 1', 'mno-post-manager' ); ?><br />
-                                        <input
-                                            type="text"
-                                            name="mno_pm_quote_blocks[<?php echo esc_attr( $index ); ?>][free_field_1]"
-                                            class="widefat"
-                                            value="<?php echo esc_attr( $free_field_1 ); ?>"
-                                        />
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <?php esc_html_e( '任意の補足・説明 2', 'mno-post-manager' ); ?><br />
-                                        <input
-                                            type="text"
-                                            name="mno_pm_quote_blocks[<?php echo esc_attr( $index ); ?>][free_field_2]"
-                                            class="widefat"
-                                            value="<?php echo esc_attr( $free_field_2 ); ?>"
-                                        />
-                                    </label>
-                                </p>
-                                <p>
-                                    <label>
-                                        <?php esc_html_e( 'セリフ本文', 'mno-post-manager' ); ?><br />
-                                        <textarea
-                                            name="mno_pm_quote_blocks[<?php echo esc_attr( $index ); ?>][quote]"
-                                            class="widefat"
-                                            rows="3"
-                                        ><?php echo esc_textarea( $quote ); ?></textarea>
-                                    </label>
-                                </p>
+                    </div>
+                    <input type="hidden" name="mno_pm_dialogue_block[image_id]" value="<?php echo esc_attr( $dialogue_image ); ?>" />
+                    <div class="mno-pm-media__actions">
+                        <button type="button" class="button button-secondary mno-pm-media__select"><?php esc_html_e( '画像を選択', 'mno-post-manager' ); ?></button>
+                        <button type="button" class="button mno-pm-media__remove" aria-label="<?php esc_attr_e( '画像を削除', 'mno-post-manager' ); ?>"><?php esc_html_e( '削除', 'mno-post-manager' ); ?></button>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                <label>
+                    <?php esc_html_e( 'トラック説明', 'mno-post-manager' ); ?><br />
+                    <textarea
+                        name="mno_pm_dialogue_block[track_description]"
+                        class="widefat"
+                        rows="3"
+                    ><?php echo esc_textarea( $track_desc ); ?></textarea>
+                </label>
+            </p>
+
+            <div class="mno-pm-dialogue-block__repeater">
+                <span class="mno-pm-dialogue-block__label"><?php esc_html_e( 'トラックリスト', 'mno-post-manager' ); ?></span>
+                <div
+                    class="mno-pm-repeater mno-pm-repeater--dialogue"
+                    data-name="mno_pm_dialogue_block[track_list]"
+                    data-next-index="<?php echo esc_attr( count( $dialogue_tracks ) ); ?>"
+                >
+                    <div class="mno-pm-repeater__rows">
+                        <?php foreach ( $dialogue_tracks as $index => $track_item ) : ?>
+                            <div class="mno-pm-repeater__row mno-pm-repeater__row--dialogue">
+                                <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
+                                <textarea name="mno_pm_dialogue_block[track_list][<?php echo esc_attr( $index ); ?>]" class="widefat" rows="2"><?php echo esc_textarea( $track_item ); ?></textarea>
+                                <button type="button" class="button mno-pm-repeater__remove" aria-label="<?php esc_attr_e( '削除', 'mno-post-manager' ); ?>">&minus;</button>
                             </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <script type="text/template" class="mno-pm-repeater__template">
+                        <div class="mno-pm-repeater__row mno-pm-repeater__row--dialogue">
+                            <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
+                            <textarea name="mno_pm_dialogue_block[track_list][__index__]" class="widefat" rows="2"></textarea>
                             <button type="button" class="button mno-pm-repeater__remove" aria-label="<?php esc_attr_e( '削除', 'mno-post-manager' ); ?>">&minus;</button>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-            <script type="text/template" class="mno-pm-repeater__template">
-                <div class="mno-pm-repeater__row mno-pm-repeater__row--quote-block">
-                    <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
-                    <div class="mno-pm-quote-block__fields">
-                        <p>
-                            <label>
-                                <?php esc_html_e( '自由な見出し', 'mno-post-manager' ); ?><br />
-                                <input type="text" name="mno_pm_quote_blocks[__index__][heading]" class="widefat" value="" />
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <?php esc_html_e( '任意の補足・説明 1', 'mno-post-manager' ); ?><br />
-                                <input type="text" name="mno_pm_quote_blocks[__index__][free_field_1]" class="widefat" value="" />
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <?php esc_html_e( '任意の補足・説明 2', 'mno-post-manager' ); ?><br />
-                                <input type="text" name="mno_pm_quote_blocks[__index__][free_field_2]" class="widefat" value="" />
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <?php esc_html_e( 'セリフ本文', 'mno-post-manager' ); ?><br />
-                                <textarea name="mno_pm_quote_blocks[__index__][quote]" class="widefat" rows="3"></textarea>
-                            </label>
-                        </p>
-                    </div>
-                    <button type="button" class="button mno-pm-repeater__remove" aria-label="<?php esc_attr_e( '削除', 'mno-post-manager' ); ?>">&minus;</button>
+                    </script>
+                    <button type="button" class="button mno-pm-repeater__add"><?php esc_html_e( 'トラックを追加', 'mno-post-manager' ); ?></button>
                 </div>
-            </script>
-            <button type="button" class="button mno-pm-repeater__add"><?php esc_html_e( 'セリフブロックを追加', 'mno-post-manager' ); ?></button>
+            </div>
+
+            <div class="mno-pm-dialogue-block__repeater">
+                <span class="mno-pm-dialogue-block__label"><?php esc_html_e( 'サブ見出し', 'mno-post-manager' ); ?></span>
+                <div
+                    class="mno-pm-repeater mno-pm-repeater--dialogue"
+                    data-name="mno_pm_dialogue_block[subheadings]"
+                    data-next-index="<?php echo esc_attr( count( $dialogue_heads ) ); ?>"
+                >
+                    <div class="mno-pm-repeater__rows">
+                        <?php foreach ( $dialogue_heads as $index => $heading ) : ?>
+                            <div class="mno-pm-repeater__row mno-pm-repeater__row--dialogue">
+                                <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
+                                <textarea name="mno_pm_dialogue_block[subheadings][<?php echo esc_attr( $index ); ?>]" class="widefat" rows="2"><?php echo esc_textarea( $heading ); ?></textarea>
+                                <button type="button" class="button mno-pm-repeater__remove" aria-label="<?php esc_attr_e( '削除', 'mno-post-manager' ); ?>">&minus;</button>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <script type="text/template" class="mno-pm-repeater__template">
+                        <div class="mno-pm-repeater__row mno-pm-repeater__row--dialogue">
+                            <span class="dashicons dashicons-move mno-pm-repeater__handle" aria-hidden="true"></span>
+                            <textarea name="mno_pm_dialogue_block[subheadings][__index__]" class="widefat" rows="2"></textarea>
+                            <button type="button" class="button mno-pm-repeater__remove" aria-label="<?php esc_attr_e( '削除', 'mno-post-manager' ); ?>">&minus;</button>
+                        </div>
+                    </script>
+                    <button type="button" class="button mno-pm-repeater__add"><?php esc_html_e( 'サブ見出しを追加', 'mno-post-manager' ); ?></button>
+                </div>
+            </div>
+
+            <p>
+                <label>
+                    <?php esc_html_e( 'セリフ本文', 'mno-post-manager' ); ?><br />
+                    <textarea
+                        name="mno_pm_dialogue_block[dialogue_body]"
+                        class="widefat"
+                        rows="6"
+                    ><?php echo esc_textarea( $dialogue_content ); ?></textarea>
+                </label>
+            </p>
         </div>
     </section>
 

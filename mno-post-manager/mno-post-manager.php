@@ -114,7 +114,14 @@ final class MNO_Post_Manager {
             'sale_end_date'  => '',
             'highlights'     => [],
             'track_list'     => [],
-            'quote_blocks'   => [],
+            'dialogue_block' => [
+                'main_title'        => '',
+                'image_id'          => 0,
+                'track_description' => '',
+                'track_list'        => [],
+                'subheadings'       => [],
+                'dialogue_body'     => '',
+            ],
             'release_date'   => '',
             'genre'          => '',
             'track_duration' => '',
@@ -270,34 +277,7 @@ final class MNO_Post_Manager {
         $level = isset( $data['data_level'] ) ? sanitize_key( $data['data_level'] ) : '';
         $data['data_level'] = array_key_exists( $level, self::get_level_options() ) ? $level : '';
 
-        if ( is_array( $data['quote_blocks'] ) ) {
-            $quote_blocks = [];
-            foreach ( $data['quote_blocks'] as $block ) {
-                if ( ! is_array( $block ) ) {
-                    continue;
-                }
-
-                $heading      = isset( $block['heading'] ) ? sanitize_text_field( $block['heading'] ) : '';
-                $free_field_1 = isset( $block['free_field_1'] ) ? sanitize_text_field( $block['free_field_1'] ) : '';
-                $free_field_2 = isset( $block['free_field_2'] ) ? sanitize_text_field( $block['free_field_2'] ) : '';
-                $quote        = isset( $block['quote'] ) ? sanitize_textarea_field( $block['quote'] ) : '';
-
-                if ( '' === $heading && '' === $free_field_1 && '' === $free_field_2 && '' === $quote ) {
-                    continue;
-                }
-
-                $quote_blocks[] = [
-                    'heading'       => $heading,
-                    'free_field_1'  => $free_field_1,
-                    'free_field_2'  => $free_field_2,
-                    'quote'         => $quote,
-                ];
-            }
-
-            $data['quote_blocks'] = $quote_blocks;
-        } else {
-            $data['quote_blocks'] = [];
-        }
+        $data['dialogue_block'] = self::sanitize_dialogue_block( $data['dialogue_block'] );
 
         $data['post_id'] = $post_id;
 
@@ -470,31 +450,16 @@ final class MNO_Post_Manager {
         }
         update_post_meta( $post_id, self::META_PREFIX . 'track_list', $track_list );
 
-        $quote_blocks = [];
-        if ( isset( $_POST['mno_pm_quote_blocks'] ) && is_array( $_POST['mno_pm_quote_blocks'] ) ) {
-            foreach ( wp_unslash( $_POST['mno_pm_quote_blocks'] ) as $block ) {
-                if ( ! is_array( $block ) ) {
-                    continue;
-                }
-
-                $heading      = isset( $block['heading'] ) ? sanitize_text_field( $block['heading'] ) : '';
-                $free_field_1 = isset( $block['free_field_1'] ) ? sanitize_text_field( $block['free_field_1'] ) : '';
-                $free_field_2 = isset( $block['free_field_2'] ) ? sanitize_text_field( $block['free_field_2'] ) : '';
-                $quote        = isset( $block['quote'] ) ? sanitize_textarea_field( $block['quote'] ) : '';
-
-                if ( '' === $heading && '' === $free_field_1 && '' === $free_field_2 && '' === $quote ) {
-                    continue;
-                }
-
-                $quote_blocks[] = [
-                    'heading'       => $heading,
-                    'free_field_1'  => $free_field_1,
-                    'free_field_2'  => $free_field_2,
-                    'quote'         => $quote,
-                ];
-            }
+        $dialogue_block = [];
+        if ( isset( $_POST['mno_pm_dialogue_block'] ) && is_array( $_POST['mno_pm_dialogue_block'] ) ) {
+            $dialogue_block = wp_unslash( $_POST['mno_pm_dialogue_block'] );
         }
-        update_post_meta( $post_id, self::META_PREFIX . 'quote_blocks', $quote_blocks );
+        update_post_meta(
+            $post_id,
+            self::META_PREFIX . 'dialogue_block',
+            self::sanitize_dialogue_block( $dialogue_block )
+        );
+        delete_post_meta( $post_id, self::META_PREFIX . 'quote_blocks' );
         delete_post_meta( $post_id, self::META_PREFIX . 'sample_lines' );
 
         $data_bars = [];
@@ -604,6 +569,45 @@ final class MNO_Post_Manager {
 
     private static function sanitize_voice_sample( $value ) {
         return wp_kses( $value, self::get_voice_sample_allowed_tags() );
+    }
+
+    private static function sanitize_dialogue_block( $value ) {
+        $block = is_array( $value ) ? $value : [];
+
+        $main_title        = isset( $block['main_title'] ) ? sanitize_textarea_field( $block['main_title'] ) : '';
+        $image_id          = isset( $block['image_id'] ) ? absint( $block['image_id'] ) : 0;
+        $track_description = isset( $block['track_description'] ) ? sanitize_textarea_field( $block['track_description'] ) : '';
+
+        $track_list = [];
+        if ( isset( $block['track_list'] ) && is_array( $block['track_list'] ) ) {
+            foreach ( $block['track_list'] as $entry ) {
+                $entry = sanitize_textarea_field( $entry );
+                if ( '' !== $entry ) {
+                    $track_list[] = $entry;
+                }
+            }
+        }
+
+        $subheadings = [];
+        if ( isset( $block['subheadings'] ) && is_array( $block['subheadings'] ) ) {
+            foreach ( $block['subheadings'] as $entry ) {
+                $entry = sanitize_textarea_field( $entry );
+                if ( '' !== $entry ) {
+                    $subheadings[] = $entry;
+                }
+            }
+        }
+
+        $dialogue_body = isset( $block['dialogue_body'] ) ? sanitize_textarea_field( $block['dialogue_body'] ) : '';
+
+        return [
+            'main_title'        => $main_title,
+            'image_id'          => $image_id,
+            'track_description' => $track_description,
+            'track_list'        => $track_list,
+            'subheadings'       => $subheadings,
+            'dialogue_body'     => $dialogue_body,
+        ];
     }
 
     public static function get_voice_type_options() {
