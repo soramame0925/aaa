@@ -116,6 +116,7 @@ final class MNO_Post_Manager {
             'track_list'     => [],
             'dialogue_block' => [
                 'main_title'        => '',
+                'image_id'          => '',
                 'track_description' => '',
                 'track_list'        => [],
                 'subheadings'       => [],
@@ -139,6 +140,21 @@ final class MNO_Post_Manager {
             }
             $data[ $key ] = $value;
         }
+
+        $data['dialogue_block'] = is_array( $data['dialogue_block'] )
+            ? wp_parse_args(
+                $data['dialogue_block'],
+                [
+                    'main_title'        => '',
+                    'image_id'          => '',
+                    'track_description' => '',
+                    'track_list'        => [],
+                    'subheadings'       => [],
+                    'dialogue_body'     => '',
+                ]
+            )
+            : $defaults['dialogue_block'];
+        $data['dialogue_block']['image_id'] = $data['dialogue_block']['image_id'] ? absint( $data['dialogue_block']['image_id'] ) : '';
 
         $data['gallery']      = is_array( $data['gallery'] ) ? array_map( 'intval', $data['gallery'] ) : [];
         $data['voice_actors'] = is_array( $data['voice_actors'] ) ? array_map( 'sanitize_text_field', $data['voice_actors'] ) : [];
@@ -456,7 +472,7 @@ final class MNO_Post_Manager {
         update_post_meta(
             $post_id,
             self::META_PREFIX . 'dialogue_block',
-            self::sanitize_dialogue_block( $dialogue_block )
+            self::sanitize_dialogue_block( $dialogue_block, $gallery_ids )
         );
         delete_post_meta( $post_id, self::META_PREFIX . 'quote_blocks' );
         delete_post_meta( $post_id, self::META_PREFIX . 'sample_lines' );
@@ -570,11 +586,17 @@ final class MNO_Post_Manager {
         return wp_kses( $value, self::get_voice_sample_allowed_tags() );
     }
 
-    private static function sanitize_dialogue_block( $value ) {
-        $block = is_array( $value ) ? $value : [];
+    private static function sanitize_dialogue_block( $value, $allowed_gallery_ids = [] ) {
+        $block  = is_array( $value ) ? $value : [];
+        $allowed_gallery_ids = array_filter( array_map( 'absint', (array) $allowed_gallery_ids ) );
 
         $main_title        = isset( $block['main_title'] ) ? sanitize_textarea_field( $block['main_title'] ) : '';
+        $image_id          = isset( $block['image_id'] ) ? absint( $block['image_id'] ) : 0;
         $track_description = isset( $block['track_description'] ) ? sanitize_textarea_field( $block['track_description'] ) : '';
+
+        if ( $image_id && $allowed_gallery_ids && ! in_array( $image_id, $allowed_gallery_ids, true ) ) {
+            $image_id = 0;
+        }
 
         $track_list = [];
         if ( isset( $block['track_list'] ) && is_array( $block['track_list'] ) ) {
@@ -600,6 +622,7 @@ final class MNO_Post_Manager {
 
         return [
             'main_title'        => $main_title,
+            'image_id'          => $image_id ? $image_id : '',
             'track_description' => $track_description,
             'track_list'        => $track_list,
             'subheadings'       => $subheadings,
