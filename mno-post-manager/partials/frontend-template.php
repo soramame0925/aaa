@@ -449,7 +449,7 @@ if ( $buy_url ) {
 
             <?php if ( $track_desc ) : ?>
                 <div class="mno-dialogue-block__track-description">
-                    <?php echo wpautop( esc_html( $track_desc ) ); ?>
+                    <?php echo nl2br( esc_html( $track_desc ) ); ?>
                 </div>
             <?php endif; ?>
 
