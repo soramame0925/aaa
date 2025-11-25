@@ -88,11 +88,57 @@
     });
   }
 
+  function initSingleMedia() {
+    $('.mno-pm-media').each(function () {
+      var $container = $(this);
+      var $preview = $container.find('.mno-pm-media__preview');
+      var $input = $container.find('input[type="hidden"]');
+      var $select = $container.find('.mno-pm-media__select');
+      var $remove = $container.find('.mno-pm-media__remove');
+      var placeholder = $container.data('placeholder') || '';
+      var frame;
+
+      $select.on('click', function (event) {
+        event.preventDefault();
+
+        if (frame) {
+          frame.open();
+          return;
+        }
+
+        frame = wp.media({
+          title: $(this).text(),
+          button: { text: $(this).text() },
+          multiple: false
+        });
+
+        frame.on('select', function () {
+          var attachment = frame.state().get('selection').first().toJSON();
+          var preview = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+          var alt = attachment.alt || attachment.title || attachment.filename || '';
+          $preview.html('<img src="' + preview + '" alt="' + alt.replace(/"/g, '&quot;') + '" />');
+          $input.val(attachment.id);
+          $container.addClass('has-image');
+        });
+
+        frame.open();
+      });
+
+      $remove.on('click', function (event) {
+        event.preventDefault();
+        $preview.text(placeholder);
+        $input.val('');
+        $container.removeClass('has-image');
+      });
+    });
+  }
+
   $(function () {
     $('.mno-pm-repeater').each(function () {
       initRepeater($(this));
     });
 
     initGallery();
+    initSingleMedia();
   });
 })(jQuery);

@@ -10,7 +10,7 @@ $sale_price     = isset( $data['sale_price'] ) ? $data['sale_price'] : '';
 $sale_end_date  = isset( $data['sale_end_date'] ) ? $data['sale_end_date'] : '';
 $highlights     = ! empty( $data['highlights'] ) ? $data['highlights'] : [];
 $track_list     = ! empty( $data['track_list'] ) ? $data['track_list'] : [];
-$quote_blocks   = ! empty( $data['quote_blocks'] ) ? $data['quote_blocks'] : [];
+$dialogue_block = isset( $data['dialogue_block'] ) && is_array( $data['dialogue_block'] ) ? $data['dialogue_block'] : [];
 $release_date   = isset( $data['release_date'] ) ? $data['release_date'] : '';
 $genre          = isset( $data['genre'] ) ? $data['genre'] : '';
 $track_duration = isset( $data['track_duration'] ) ? $data['track_duration'] : '';
@@ -424,34 +424,56 @@ if ( $buy_url ) {
         <?php endif; ?>
     </section>
 
-    <?php if ( $quote_blocks ) : ?>
-        <section class="mno-pm-article__section mno-pm-article__quotes">
-            <div class="mno-quote-blocks">
-                <?php foreach ( $quote_blocks as $block ) :
-                    $heading      = isset( $block['heading'] ) ? $block['heading'] : '';
-                    $free_field_1 = isset( $block['free_field_1'] ) ? $block['free_field_1'] : '';
-                    $free_field_2 = isset( $block['free_field_2'] ) ? $block['free_field_2'] : '';
-                    $quote        = isset( $block['quote'] ) ? $block['quote'] : '';
-                    ?>
-                    <section class="mno-quote-block">
-                        <?php if ( $heading ) : ?>
-                            <h3><?php echo esc_html( $heading ); ?></h3>
-                        <?php endif; ?>
+    <?php
+    $dialogue_title   = isset( $dialogue_block['main_title'] ) ? $dialogue_block['main_title'] : '';
+    $dialogue_image   = isset( $dialogue_block['image_id'] ) ? (int) $dialogue_block['image_id'] : 0;
+    $track_desc       = isset( $dialogue_block['track_description'] ) ? $dialogue_block['track_description'] : '';
+    $dialogue_tracks  = isset( $dialogue_block['track_list'] ) && is_array( $dialogue_block['track_list'] ) ? $dialogue_block['track_list'] : [];
+    $dialogue_heads   = isset( $dialogue_block['subheadings'] ) && is_array( $dialogue_block['subheadings'] ) ? $dialogue_block['subheadings'] : [];
+    $dialogue_content = isset( $dialogue_block['dialogue_body'] ) ? $dialogue_block['dialogue_body'] : '';
 
-                        <?php if ( $free_field_1 ) : ?>
-                            <p class="mno-quote-block__meta"><?php echo esc_html( $free_field_1 ); ?></p>
-                        <?php endif; ?>
+    $has_dialogue_block = $dialogue_title || $dialogue_image || $track_desc || $dialogue_tracks || $dialogue_heads || $dialogue_content;
+    ?>
 
-                        <?php if ( $free_field_2 ) : ?>
-                            <p class="mno-quote-block__meta"><?php echo esc_html( $free_field_2 ); ?></p>
-                        <?php endif; ?>
+    <?php if ( $has_dialogue_block ) : ?>
+        <section class="mno-dialogue-block mno-pm-article__section">
+            <?php if ( $dialogue_title ) : ?>
+                <h2><?php echo nl2br( esc_html( $dialogue_title ) ); ?></h2>
+            <?php endif; ?>
 
-                        <?php if ( $quote ) : ?>
-                            <blockquote><?php echo wpautop( esc_html( $quote ) ); ?></blockquote>
-                        <?php endif; ?>
-                    </section>
-                <?php endforeach; ?>
-            </div>
+            <?php if ( $dialogue_image ) : ?>
+                <div class="mno-dialogue-block__image">
+                    <?php echo wp_get_attachment_image( $dialogue_image, 'large' ); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( $track_desc ) : ?>
+                <div class="mno-dialogue-block__track-description">
+                    <?php echo wpautop( esc_html( $track_desc ) ); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( $dialogue_tracks ) : ?>
+                <ul class="mno-dialogue-block__track-list">
+                    <?php foreach ( $dialogue_tracks as $track_item ) : ?>
+                        <li><?php echo nl2br( esc_html( $track_item ) ); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+            <?php if ( $dialogue_heads ) : ?>
+                <div class="mno-dialogue-block__subheadings">
+                    <?php foreach ( $dialogue_heads as $heading ) : ?>
+                        <h3><?php echo nl2br( esc_html( $heading ) ); ?></h3>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( $dialogue_content ) : ?>
+                <div class="mno-dialogue-block__body">
+                    <?php echo wpautop( esc_html( $dialogue_content ) ); ?>
+                </div>
+            <?php endif; ?>
         </section>
     <?php endif; ?>
 
