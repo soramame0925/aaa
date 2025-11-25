@@ -184,6 +184,7 @@ if ( $buy_url ) {
             <li><span>価格：</span><?php echo $sale_active && $sale_price ? esc_html( $sale_price ) : ( $normal_price ? esc_html( $normal_price ) : '&mdash;' ); ?></li>
             <li><span>イラスト：</span><?php echo $render_terms( $artist_terms ); ?></li>
              <li><span>発売日：</span><?php echo $release_date_output; ?></li>
+             <li><span>トラック総時間：</span><?php echo $track_duration ? esc_html( $track_duration ) : '&mdash;'; ?></li>
             <li><span>ジャンル：</span><?php echo $render_terms( $genre_terms ); ?></li>
         </ul>
     </section>
