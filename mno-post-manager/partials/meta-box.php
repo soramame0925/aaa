@@ -280,7 +280,6 @@
         <?php
         $dialogue_block   = isset( $values['dialogue_block'] ) && is_array( $values['dialogue_block'] ) ? $values['dialogue_block'] : [];
         $dialogue_title   = isset( $dialogue_block['main_title'] ) ? $dialogue_block['main_title'] : '';
-        $dialogue_image   = isset( $dialogue_block['image_id'] ) ? (int) $dialogue_block['image_id'] : 0;
         $track_desc       = isset( $dialogue_block['track_description'] ) ? $dialogue_block['track_description'] : '';
         $dialogue_tracks  = isset( $dialogue_block['track_list'] ) && is_array( $dialogue_block['track_list'] ) ? $dialogue_block['track_list'] : [];
         $dialogue_heads   = isset( $dialogue_block['subheadings'] ) && is_array( $dialogue_block['subheadings'] ) ? $dialogue_block['subheadings'] : [];
@@ -298,29 +297,6 @@
                     ><?php echo esc_textarea( $dialogue_title ); ?></textarea>
                 </label>
             </p>
-
-            <div class="mno-pm-dialogue-block__media">
-                <span class="mno-pm-dialogue-block__label"><?php esc_html_e( '画像 (任意)', 'mno-post-manager' ); ?></span>
-                <div
-                    class="mno-pm-media<?php echo $dialogue_image ? ' has-image' : ''; ?>"
-                    data-placeholder="<?php echo esc_attr__( '画像が選択されていません', 'mno-post-manager' ); ?>"
-                >
-                    <div class="mno-pm-media__preview">
-                        <?php
-                        if ( $dialogue_image ) {
-                            echo wp_get_attachment_image( $dialogue_image, 'thumbnail' );
-                        } else {
-                            esc_html_e( '画像が選択されていません', 'mno-post-manager' );
-                        }
-                        ?>
-                    </div>
-                    <input type="hidden" name="mno_pm_dialogue_block[image_id]" value="<?php echo esc_attr( $dialogue_image ); ?>" />
-                    <div class="mno-pm-media__actions">
-                        <button type="button" class="button button-secondary mno-pm-media__select"><?php esc_html_e( '画像を選択', 'mno-post-manager' ); ?></button>
-                        <button type="button" class="button mno-pm-media__remove" aria-label="<?php esc_attr_e( '画像を削除', 'mno-post-manager' ); ?>"><?php esc_html_e( '削除', 'mno-post-manager' ); ?></button>
-                    </div>
-                </div>
-            </div>
 
             <p>
                 <label>

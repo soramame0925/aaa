@@ -550,13 +550,6 @@ body.single,
   color: #111827;
 }
 
-/* セリフブロックの画像 */
-.mno-dialogue-block__image img {
-  width: 100%;
-  border-radius: 12px;
-  display: block;
-}
-
 /* トラック説明文 */
 .mno-dialogue-block__track-description {
   margin: 0;

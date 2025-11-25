@@ -116,7 +116,6 @@ final class MNO_Post_Manager {
             'track_list'     => [],
             'dialogue_block' => [
                 'main_title'        => '',
-                'image_id'          => 0,
                 'track_description' => '',
                 'track_list'        => [],
                 'subheadings'       => [],
@@ -575,7 +574,6 @@ final class MNO_Post_Manager {
         $block = is_array( $value ) ? $value : [];
 
         $main_title        = isset( $block['main_title'] ) ? sanitize_textarea_field( $block['main_title'] ) : '';
-        $image_id          = isset( $block['image_id'] ) ? absint( $block['image_id'] ) : 0;
         $track_description = isset( $block['track_description'] ) ? sanitize_textarea_field( $block['track_description'] ) : '';
 
         $track_list = [];
@@ -602,7 +600,6 @@ final class MNO_Post_Manager {
 
         return [
             'main_title'        => $main_title,
-            'image_id'          => $image_id,
             'track_description' => $track_description,
             'track_list'        => $track_list,
             'subheadings'       => $subheadings,
