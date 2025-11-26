@@ -54,26 +54,21 @@ if ( ! function_exists( 'mno_pm_render_terms' ) ) {
     }   
 }
 
-$now_timestamp       = current_time( 'timestamp' );
-$sale_end_timestamp  = null;
-$sale_price_numeric  = '' !== $sale_price && is_numeric( $sale_price ) ? $sale_price : null;
+$sale_price_value  = '' !== $sale_price ? trim( (string) $sale_price ) : '';
+$normal_price_value = '' !== $normal_price ? trim( (string) $normal_price ) : '';
+$today             = current_time( 'Y-m-d' );
+$today_ts          = strtotime( $today );
+$sale_end_timestamp = $sale_end_date ? strtotime( $sale_end_date ) : false;
 
-if ( '' !== $sale_end_date && null !== $sale_end_date ) {
-    if ( is_numeric( $sale_end_date ) ) {
-        $sale_end_timestamp = (int) $sale_end_date;
-    } else {
-        $sale_end_timestamp = strtotime( $sale_end_date );
-        if ( $sale_end_timestamp ) {
-            $sale_end_timestamp = strtotime( gmdate( 'Y-m-d 23:59:59', $sale_end_timestamp ) );
-        }
-    }
-}
-
-$sale_active = null !== $sale_price_numeric && $sale_end_timestamp && $now_timestamp < $sale_end_timestamp;
+$sale_active = '' !== $sale_price_value
+    && $sale_end_date
+    && $today_ts
+    && $sale_end_timestamp
+    && $today_ts <= $sale_end_timestamp;
 
 $sale_end_display = '';
 if ( $sale_active && $sale_end_timestamp ) {
-    $sale_end_display = date_i18n( 'Y年n月j日', $sale_end_timestamp );
+    $sale_end_display = wp_date( 'Y年n月j日', $sale_end_timestamp );
 }
 
 $release_date_display = '&mdash;';
@@ -92,11 +87,11 @@ $release_date_output = '&mdash;' === $release_date_display ? $release_date_displ
 
 $price_markup = '';
 if ( $sale_active ) {
-    $price_markup = '<div class="mno-pm-price">';
-    $price_markup .= '<p class="mno-pm-price__sale"><span class="mno-pm-price__label">' . esc_html__( 'Sale', 'mno-post-manager' ) . '</span>' . esc_html( $sale_price_numeric ) . '</p>';
+    $price_markup  = '<div class="mno-pm-price">';
+    $price_markup .= '<p class="mno-pm-price__sale"><span class="mno-pm-price__label">' . esc_html__( 'Sale', 'mno-post-manager' ) . '</span>' . esc_html( $sale_price_value ) . '</p>';
 
-    if ( $normal_price ) {
-        $price_markup .= '<p class="mno-pm-price__normal">' . esc_html( $normal_price ) . '</p>';
+    if ( $normal_price_value ) {
+        $price_markup .= '<p class="mno-pm-price__normal">' . esc_html( $normal_price_value ) . '</p>';
     }
 
     if ( $sale_end_display ) {
@@ -124,12 +119,24 @@ if ( $voice_sample ) {
     }
 }
 
-$buy_button = '';
-$button_label = esc_html__( 'DLsiteで購入', 'mno-post-manager' );
+$buy_button   = '';
+$button_label = __( 'DLsiteで購入', 'mno-post-manager' );
+$button_price = $sale_active && $sale_price_value ? $sale_price_value : $normal_price_value;
+
+if ( $button_price ) {
+    $button_label = sprintf( '%s（%s）', $button_label, $button_price );
+}
 if ( $buy_url ) {
-    $buy_button = '<a class="mno-pm-buy-button" href="' . esc_url( $buy_url ) . '" target="_blank" rel="noopener noreferrer">' . $button_label . '</a>';
+    $buy_button = '<a class="mno-pm-buy-button" href="' . esc_url( $buy_url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $button_label ) . '</a>';
 } else {
-    $buy_button = '<span class="mno-pm-buy-button mno-pm-buy-button--disabled" aria-disabled="true">' . $button_label . '</span>';
+    $buy_button = '<span class="mno-pm-buy-button mno-pm-buy-button--disabled" aria-disabled="true">' . esc_html( $button_label ) . '</span>';
+}
+
+$price_display_value = '&mdash;';
+if ( $sale_active && $sale_price_value ) {
+    $price_display_value = esc_html( $sale_price_value );
+} elseif ( $normal_price_value ) {
+    $price_display_value = esc_html( $normal_price_value );
 }
 ?>
 <div class="mno-pm-article">
@@ -183,7 +190,7 @@ if ( $buy_url ) {
         <ul class="mno-pm-list">
            <li><span>サークル名：</span><?php echo mno_pm_render_terms( $circle_terms ); ?></li>
             <li><span>声優：</span><?php echo mno_pm_render_terms( $voice_terms ); ?></li>
-            <li><span>価格：</span><?php echo $sale_active && $sale_price ? esc_html( $sale_price ) : ( $normal_price ? esc_html( $normal_price ) : '&mdash;' ); ?></li>
+             <li><span>価格：</span><?php echo $price_display_value; ?></li>
             <li><span>イラスト：</span><?php echo mno_pm_render_terms( $artist_terms ); ?></li>
              <li><span>発売日：</span><?php echo $release_date_output; ?></li>
              <li><span>トラック総時間：</span><?php echo $track_duration ? esc_html( $track_duration ) : '&mdash;'; ?></li>

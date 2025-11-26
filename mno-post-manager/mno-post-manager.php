@@ -554,9 +554,12 @@ final class MNO_Post_Manager {
         $sale_price    = get_post_meta( $post_id, self::META_PREFIX . 'sale_price', true );
         $sale_end_date = get_post_meta( $post_id, self::META_PREFIX . 'sale_end_date', true );
 
-        if ( $sale_price ) {
-            $timestamp = $sale_end_date ? strtotime( $sale_end_date . ' 23:59:59' ) : false;
-            if ( $timestamp && $timestamp < current_time( 'timestamp' ) ) {
+        if ( $sale_price && $sale_end_date ) {
+            $today       = current_time( 'Y-m-d' );
+            $today_ts    = strtotime( $today );
+            $sale_end_ts = strtotime( $sale_end_date );
+
+            if ( $today_ts && $sale_end_ts && $today_ts > $sale_end_ts ) {
                 update_post_meta( $post_id, self::META_PREFIX . 'sale_price', '' );
             }
         }
