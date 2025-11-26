@@ -26,31 +26,33 @@ $voice_terms    = isset( $data['voice_actor_terms'] ) && is_array( $data['voice_
 $artist_terms   = isset( $data['illustrator_terms'] ) && is_array( $data['illustrator_terms'] ) ? $data['illustrator_terms'] : [];
 $genre_terms    = isset( $data['genre_terms'] ) && is_array( $data['genre_terms'] ) ? $data['genre_terms'] : [];
 
-$render_terms = static function ( $terms ) {
-    if ( empty( $terms ) ) {
-        return '&mdash;';
-    }
-
-    $links = [];
-    foreach ( $terms as $term ) {
-        if ( ! $term instanceof WP_Term ) {
-            continue;
+if ( ! function_exists( 'mno_pm_render_terms' ) ) {
+    function mno_pm_render_terms( $terms ) {
+        if ( empty( $terms ) ) {
+            return '&mdash;';
         }
 
-        if ( 'uncategorized' === $term->slug ) {
-            continue;
+         $links = [];
+        foreach ( $terms as $term ) {
+            if ( ! $term instanceof WP_Term ) {
+                continue;
+            }
+
+            if ( 'uncategorized' === $term->slug ) {
+                continue;
+            }
+
+            $link = get_term_link( $term );
+            if ( ! is_wp_error( $link ) ) {
+                $links[] = '<a href="' . esc_url( $link ) . '">' . esc_html( $term->name ) . '</a>';
+            } else {
+                $links[] = esc_html( $term->name );
+            }
         }
 
-        $link = get_term_link( $term );
-        if ( ! is_wp_error( $link ) ) {
-            $links[] = '<a href="' . esc_url( $link ) . '">' . esc_html( $term->name ) . '</a>';
-        } else {
-            $links[] = esc_html( $term->name );
-        }
-    }
-
-    return $links ? implode( ' / ', $links ) : '&mdash;';
-};
+        return $links ? implode( ' / ', $links ) : '&mdash;';
+    }   
+}
 
 $now_timestamp       = current_time( 'timestamp' );
 $sale_end_timestamp  = null;
@@ -179,13 +181,13 @@ if ( $buy_url ) {
     <section class="mno-pm-article__section">
         <h2>サークル情報</h2>
         <ul class="mno-pm-list">
-            <li><span>サークル名：</span><?php echo $render_terms( $circle_terms ); ?></li>
-            <li><span>声優：</span><?php echo $render_terms( $voice_terms ); ?></li>
+           <li><span>サークル名：</span><?php echo mno_pm_render_terms( $circle_terms ); ?></li>
+            <li><span>声優：</span><?php echo mno_pm_render_terms( $voice_terms ); ?></li>
             <li><span>価格：</span><?php echo $sale_active && $sale_price ? esc_html( $sale_price ) : ( $normal_price ? esc_html( $normal_price ) : '&mdash;' ); ?></li>
-            <li><span>イラスト：</span><?php echo $render_terms( $artist_terms ); ?></li>
+            <li><span>イラスト：</span><?php echo mno_pm_render_terms( $artist_terms ); ?></li>
              <li><span>発売日：</span><?php echo $release_date_output; ?></li>
              <li><span>トラック総時間：</span><?php echo $track_duration ? esc_html( $track_duration ) : '&mdash;'; ?></li>
-            <li><span>ジャンル：</span><?php echo $render_terms( $genre_terms ); ?></li>
+            <li><span>ジャンル：</span><?php echo mno_pm_render_terms( $genre_terms ); ?></li>
         </ul>
     </section>
 
@@ -482,9 +484,9 @@ if ( $buy_url ) {
         <h2>まとめ</h2>
         <ul class="mno-pm-list">
             <li><span>トラック時間：</span><?php echo $track_duration ? esc_html( $track_duration ) : '&mdash;'; ?></li>
-            <li><span>声優：</span><?php echo $voice_actors ? esc_html( implode( ' / ', $voice_actors ) ) : '&mdash;'; ?></li>
-            <li><span>ジャンル：</span><?php echo $genre ? esc_html( $genre ) : '&mdash;'; ?></li>
-            <li><span>サークル名：</span><?php echo $circle_name ? esc_html( $circle_name ) : '&mdash;'; ?></li>
+            <li><span>声優：</span><?php echo mno_pm_render_terms( $voice_terms ); ?></li>
+            <li><span>ジャンル：</span><?php echo mno_pm_render_terms( $genre_terms ); ?></li>
+            <li><span>サークル名：</span><?php echo mno_pm_render_terms( $circle_terms ); ?></li>
         </ul>
         <?php echo $buy_button; ?>
     </section>
