@@ -7,11 +7,27 @@ body.single,
   overflow-x: hidden;
 }
 
+:root {
+  --mno-accent: #6b7bd1;
+  --mno-accent-strong: #5aaab3;
+  --mno-surface: #ffffff;
+  --mno-surface-muted: #f5f7fa;
+  --mno-border: #e5e7eb;
+  --mno-shadow: 0 12px 30px rgba(17, 24, 39, 0.05);
+}
+
+body.single {
+  background: #f1f3f5;
+  color: #111827;
+}
+
 /* シングルページの内側コンテナ（スマホでも中央に収める余白設定） */
 .mno-single {
   max-width: 960px;
   margin: 0 auto;
-  padding: 24px 16px 80px;
+  padding: 28px 16px 92px;
+  font-size: 1.125rem;
+  line-height: 1.65;
 }
 
 /* 汎用ラッパー（コンテンツが横に溢れないよう幅制御） */
@@ -31,28 +47,30 @@ body.single,
 /* 記事タイトル（スマホの読みやすさを意識したフォントサイズ） */
 .mno-single-title {
   text-align: left;
-  font-size: clamp(0.95rem, 4vw, 1.125rem);
+  font-size: clamp(1.25rem, 4vw, 1.55rem);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
 }
 
 /* 記事セクション全体グリッド（スマホ縦並びレイアウト） */
 .mno-pm-article {
   display: grid;
-  gap: 32px;
+  gap: 22px;
   max-width: 100%;
   overflow-x: hidden;
 }
 
 /* 各セクションカード（スマホでのカード状表示と影） */
 .mno-pm-article__section {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 12px 32px rgba(17, 24, 39, 0.08);
+  background: var(--mno-surface);
+  border-radius: 10px;
+  padding: 24px 26px;
+  box-shadow: var(--mno-shadow);
+  border: 1px solid #eef1f5;
   max-width: 100%;
   overflow-x: hidden;
-	 box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* ギャラリー以外のセクション余白をスマホ基準でリセット */
@@ -72,11 +90,12 @@ body.single,
 
 /* セクション見出し（スマホでも視認性を保つ左ライン） */
 .mno-pm-article__section h2 {
-  font-size: 1.4rem;
+  font-size: clamp(1.5rem, 4vw, 1.65rem);
   margin-bottom: 16px;
-  border-left: 4px solid #f38ad5;
+  border-left: 4px solid var(--mno-accent);
   padding-left: 12px;
-  line-height: 1.3;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
 }
 
 /* 音声プレイヤー（スマホ幅いっぱいにフィット） */
@@ -104,7 +123,10 @@ body.single,
 .mno-gallery {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 12px;
+  background: var(--mno-surface-muted);
+  aspect-ratio: 4 / 3;
+  min-height: 280px;
 }
 
 /* スワイプ可能なトラック（タッチ操作向けスクロールスナップ） */
@@ -135,15 +157,17 @@ body.single,
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 /* スライド内の画像（スマホ幅いっぱいに拡大） */
 .mno-pm-slider__image,
 .mno-gallery img {
   width: 100%;
-  height: auto;
-  display: block;
-　cursor: zoom-in;
+  height: 100%;
+  display: block;
+  cursor: zoom-in;
+  object-fit: cover;
 }
 
 /* モーション軽減設定への配慮 */
@@ -161,12 +185,12 @@ body.single,
     margin-right: calc(50% - 50vw);
     padding-left: 0;
     padding-right: 0;
-	max-width: none;
+    max-width: none;
   }
 
   .mno-pm-article__section.mno-pm-article__gallery .mno-gallery {
     width: 100vw;
-	margin-left: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     border-radius: 6px;
   }
@@ -259,11 +283,19 @@ body.single,
 .mno-pm-slider__dots {
   position: absolute;
   bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 16px;
+  transform: none;
   display: flex;
   gap: 8px;
   z-index: 2;
+  justify-content: flex-start;
+}
+
+.mno-gallery__caption {
+  margin: 10px 0 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+  letter-spacing: -0.005em;
 }
 
 /* ドットボタン（タップしやすい小粒サイズ） */
@@ -279,14 +311,14 @@ body.single,
 
 /* アクティブドットの色分け */
 .mno-pm-slider__dot.is-active {
-  background: #f38ad5;
+  background: var(--mno-accent);
 }
 
 /* 購入セクション全体（スマホでは縦に積む） */
 .mno-pm-article__purchase {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -296,27 +328,27 @@ body.single,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 4px;
-  padding: 14px 16px;
+  text-align: left;
+  gap: 6px;
+  padding: 16px 18px;
   margin: 0;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  border-radius: 12px;
+  border: 1px solid var(--mno-border);
+  background: var(--mno-surface);
+  box-shadow: 0 8px 22px rgba(17, 24, 39, 0.05);
   width: 100%;
 }
 
 /* セール価格表示（スマホでも大きく強調） */
 .mno-pm-price__sale {
   font-size: clamp(1.8rem, 6vw, 2.3rem);
-  color: #dc2626;
+  color: #0f172a;
   font-weight: 700;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: center;
-  gap: 6px;
+  justify-content: flex-start;
+  gap: 8px;
   margin: 0;
   line-height: 1.1;
 }
@@ -326,8 +358,8 @@ body.single,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #fee2e2;
-  color: #b91c1c;
+  background: #e7ecff;
+  color: var(--mno-accent);
   padding: 2px 12px;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -347,14 +379,14 @@ body.single,
 .mno-pm-price__normal--only {
   text-decoration: none;
   font-weight: 600;
-  color: #111827;
-  font-size: 1.2rem;
+  color: #0f172a;
+  font-size: 1.3rem;
 }
 
 /* セール終了文言（スマホで注意喚起する赤文字） */
 .mno-pm-price__end {
   font-size: 0.9rem;
-  color: #dc2626;
+  color: #b45309;
   font-weight: 600;
   margin: 6px 0 0;
   letter-spacing: 0.04em;
@@ -373,11 +405,11 @@ body.single,
   font-size: 1rem;
   font-weight: 700;
   border-radius: 14px;
-  background: linear-gradient(135deg, #f38ad5, #6366f1);
+  background: linear-gradient(135deg, #7ba6d1, #67c3be);
   color: #fff;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 10px 24px rgba(103, 195, 190, 0.25);
   box-sizing: border-box;
 }
 
@@ -424,19 +456,25 @@ body.single,
 
 /* トラック一覧カード群（スマホで縦積みグリッド） */
 .mno-pm-track-list {
-  display: grid;
-  gap: 16px;
+  display: block;
+  border: 1px solid var(--mno-border);
+  border-radius: 10px;
+  background: var(--mno-surface);
+  overflow: hidden;
 }
 
 /* 各トラックの行カード（スマホで余白を確保） */
 .mno-pm-track-list__item {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  background: transparent;
+  border-bottom: 1px solid #e5e7eb;
   padding: 16px 18px;
   line-height: 1.7;
   display: grid;
   gap: 8px;
+}
+
+.mno-pm-track-list__item:last-child {
+  border-bottom: none;
 }
 
 /* トラック見出し行（スマホでラベルと値を横並び） */
@@ -463,6 +501,37 @@ body.single,
 .mno-pm-track-list__count-value,
 .mno-pm-track-list__genres {
   color: #1f2937;
+}
+
+.mno-pm-track-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.mno-pm-track-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #e7ecff;
+  color: var(--mno-accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.mno-pm-track-name {
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+}
+
+.mno-pm-track-duration {
+  margin-left: auto;
+  color: #6b7280;
+  font-size: 0.95rem;
 }
 
 /* ジャンルテキスト（スマホで少し大きめ） */
@@ -506,7 +575,7 @@ body.single,
 .mno-pm-list li span {
   min-width: 110px;
   font-weight: 600;
-  color: #6b7280;
+  color: #5b6475;
 }
 
 /* 箇条書きリスト（スマホ向けドット表示） */
@@ -533,15 +602,35 @@ body.single,
   color: #111827;
 }
 
+.mno-track-genre {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #e7ecff;
+  color: var(--mno-accent);
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(107, 123, 209, 0.12);
+}
+
+.mno-track-genre:hover,
+.mno-track-genre:focus-visible {
+  background: #dce3ff;
+  color: #4c5ab8;
+}
+
 /* セリフブロック全体のカード */
 .mno-dialogue-block {
   display: grid;
   gap: 16px;
-  background: #f8fafc;
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-	overflow-x: hidden;
+  background: var(--mno-surface);
+  border-radius: 10px;
+  padding: 22px 24px;
+  box-shadow: var(--mno-shadow);
+  border: 1px solid #eef1f5;
+  overflow-x: hidden;
 }
 
 .mno-dialogue-image {
@@ -557,8 +646,9 @@ body.single,
 /* セリフブロックのメインタイトル */
 .mno-dialogue-block h2 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: clamp(1.45rem, 4vw, 1.6rem);
   color: #111827;
+  letter-spacing: -0.01em;
 }
 
 /* トラック説明文 */
@@ -601,11 +691,22 @@ body.single,
 }
 
 .mno-speech-text {
-  background: #f7f7f7;
-  border-left: 3px solid #c7a5b0;
-  padding: 12px 14px;
-  border-radius: 8px;
+  background: #f8fafc;
+  border-left: 3px solid var(--mno-accent);
+  padding: 14px 16px 14px 24px;
+  border-radius: 10px;
   line-height: 1.9;
+  font-style: italic;
+  position: relative;
+}
+
+.mno-speech-text::before {
+  content: '—';
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: #9ca3af;
+  font-weight: 700;
 }
 
 /* データ表示セクション全体（スマホで縦並び） */
@@ -652,6 +753,7 @@ body.single,
   font-size: 1.1rem;
   margin-bottom: 12px;
   color: #0f172a;
+  letter-spacing: -0.005em;
 }
 
 /* 棒グラフリスト（スマホで1列表示） */
@@ -727,7 +829,7 @@ body.single,
   bottom: 0;
   width: var(--mno-bar-width, 0%);
   max-width: 100%;
-  background: linear-gradient(90deg, #f38ad5, #6366f1);
+  background: linear-gradient(90deg, var(--mno-accent), var(--mno-accent-strong));
   border-radius: 999px;
 }
 
@@ -800,8 +902,8 @@ body.single,
 
 /* 利用可能ドットの強調色 */
 .mno-voice-dot.is-active {
-  background: #f38ad5;
-  border-color: #f38ad5;
+  background: var(--mno-accent);
+  border-color: var(--mno-accent);
 }
 
 /* スマホ専用のボイス表アコーディオン */
@@ -858,8 +960,8 @@ body.single,
 }
 
 .mno-level-dot.is-active {
-  background: #f38ad5;
-  border-color: #f38ad5;
+  background: var(--mno-accent);
+  border-color: var(--mno-accent);
   transform: scale(1.1);
 }
 
@@ -898,7 +1000,7 @@ body.single,
     height: 36px;
   }
 
-　.mno-gallery .slick-prev,
+  .mno-gallery .slick-prev,
   .mno-gallery .slick-next,
   .mno-gallery-arrow {
     opacity: 1;
@@ -908,7 +1010,7 @@ body.single,
     min-width: 90px;
   }
 	
-	.mno-level-chart {
+  .mno-level-chart {
     gap: 8px;
     padding-top: 14px;
   }
