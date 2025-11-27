@@ -8,3 +8,127 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: m-no-yakata
 */
+
+:root {
+  --velvet-bg: #111015;
+  --velvet-panel: #18151d;
+  --velvet-ink: #e9e5db;
+  --velvet-muted: #b9b2a3;
+  --velvet-gold: #c6a65a;
+  --velvet-gold-dim: rgba(198, 166, 90, 0.55);
+  --velvet-red: #6c1226;
+  --velvet-deep: #0c0b10;
+  --velvet-rose: #7d2433;
+  --velvet-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  --velvet-heading: "Cormorant Garamond", "Playfair Display", "Times New Roman", serif;
+  --velvet-body: "Inter", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  --velvet-radius: 14px;
+  --velvet-glow: 0 10px 35px rgba(198, 166, 90, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--velvet-bg);
+  color: var(--velvet-ink);
+  font-family: var(--velvet-body);
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 300;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 20% 20%, rgba(198, 166, 90, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(125, 36, 51, 0.1), transparent 30%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.04), transparent 35%),
+    var(--velvet-noise);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+a {
+  color: var(--velvet-gold);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: #e3d39a;
+  text-shadow: 0 0 12px rgba(198, 166, 90, 0.4);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--velvet-heading);
+  color: var(--velvet-gold);
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: clamp(22px, 4vw, 26px);
+}
+
+h2 {
+  font-size: clamp(21px, 3.6vw, 24px);
+}
+
+p {
+  margin: 0 0 1.2em;
+  color: var(--velvet-ink);
+}
+
+::selection {
+  background: rgba(198, 166, 90, 0.25);
+  color: var(--velvet-ink);
+}
+
+.mno-header,
+.mno-footer {
+  text-align: center;
+  padding: 36px 18px 28px;
+  position: relative;
+  overflow: hidden;
+  color: var(--velvet-muted);
+  letter-spacing: 0.08em;
+}
+
+.mno-header::after,
+.mno-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--velvet-gold-dim), var(--velvet-gold), var(--velvet-gold-dim), transparent);
+  opacity: 0.7;
+}
+
+.mno-header::after { top: calc(100% - 12px); }
+.mno-footer::before { top: 12px; }
+
+.mno-logo a {
+  font-family: var(--velvet-heading);
+  font-size: clamp(22px, 4vw, 26px);
+  color: var(--velvet-gold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mno-footer p {
+  margin: 0;
+  color: var(--velvet-muted);
+  font-size: 13px;
+}
