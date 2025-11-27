@@ -167,7 +167,6 @@ if ( $sale_active && $sale_price_value ) {
                 >&#10095;</button>
                 <div class="mno-pm-slider__dots mno-gallery-dots" role="tablist" aria-label="<?php esc_attr_e( 'Gallery navigation', 'mno-post-manager' ); ?>"></div>
             </div>
-            <p class="mno-gallery__caption"><?php esc_html_e( 'スワイプで画像を切り替え', 'mno-post-manager' ); ?></p>
         </section>
     <?php endif; ?>
 
