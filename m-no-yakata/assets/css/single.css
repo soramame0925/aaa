@@ -1,17 +1,32 @@
 /* 投稿ページ全体ラッパー（スマホ基準で横幅と横スクロールを抑制） */
+:root {
+  --mno-text: #0f172a;
+  --mno-muted: #64748b;
+  --mno-heading: #0b1523;
+  --mno-divider: #e5e8ee;
+  --mno-accent: #69bcd7;
+  --mno-accent-strong: #3fa1c0;
+  --mno-soft: #f6f9fb;
+}
+
 .single,
 body.single,
 .mno-single {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  background: #fff;
+  color: var(--mno-text);
+  font-family: "Inter", "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
 }
 
 /* シングルページの内側コンテナ（スマホでも中央に収める余白設定） */
 .mno-single {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 24px 16px 80px;
+  padding: 48px 20px 96px;
 }
 
 /* 汎用ラッパー（コンテンツが横に溢れないよう幅制御） */
@@ -31,34 +46,58 @@ body.single,
 /* 記事タイトル（スマホの読みやすさを意識したフォントサイズ） */
 .mno-single-title {
   text-align: left;
-  font-size: clamp(0.95rem, 4vw, 1.125rem);
-  margin: 0;
-  line-height: 1.4;
+  font-size: clamp(1.375rem, 3vw, 1.55rem);
+  margin: 6px 0 0;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--mno-heading);
+}
+
+.mno-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(105, 188, 215, 0.14);
+  color: var(--mno-accent-strong);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.mno-breadcrumb:hover,
+.mno-breadcrumb:focus-visible {
+  background: rgba(105, 188, 215, 0.22);
+  transform: translateY(-1px);
 }
 
 /* 記事セクション全体グリッド（スマホ縦並びレイアウト） */
 .mno-pm-article {
   display: grid;
-  gap: 32px;
+  gap: 48px;
   max-width: 100%;
   overflow-x: hidden;
+  border-top: 1px solid var(--mno-divider);
 }
 
-/* 各セクションカード（スマホでのカード状表示と影） */
+/* 各セクションカード（フル幅＋仕切りライン） */
 .mno-pm-article__section {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 12px 32px rgba(17, 24, 39, 0.08);
+  background: transparent;
+  border-radius: 0;
+  padding: 12px 12px 0;
   max-width: 100%;
   overflow-x: hidden;
-	 box-sizing: border-box;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--mno-divider);
 }
 
 /* ギャラリー以外のセクション余白をスマホ基準でリセット */
 .mno-pm-article__section:not(.mno-pm-article__gallery) {
   margin-left: 0;
   margin-right: 0;
+  padding-bottom: 32px;
 }
 
 /* 価格周りのコンテナと要素（スマホでの横はみ出し防止） */
@@ -72,11 +111,13 @@ body.single,
 
 /* セクション見出し（スマホでも視認性を保つ左ライン） */
 .mno-pm-article__section h2 {
-  font-size: 1.4rem;
-  margin-bottom: 16px;
-  border-left: 4px solid #f38ad5;
-  padding-left: 12px;
-  line-height: 1.3;
+  font-size: clamp(1.35rem, 2.4vw, 1.5rem);
+  margin: 0 0 18px;
+  padding: 0;
+  line-height: 1.45;
+  color: var(--mno-heading);
+  letter-spacing: 0.01em;
+  font-weight: 700;
 }
 
 /* 音声プレイヤー（スマホ幅いっぱいにフィット） */
@@ -104,7 +145,10 @@ body.single,
 .mno-gallery {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--mno-divider);
+  box-shadow: 0 18px 42px rgba(12, 74, 110, 0.08);
+  background: #fff;
 }
 
 /* スワイプ可能なトラック（タッチ操作向けスクロールスナップ） */
@@ -142,8 +186,8 @@ body.single,
 .mno-gallery img {
   width: 100%;
   height: auto;
-  display: block;
-　cursor: zoom-in;
+  display: block;
+  cursor: zoom-in;
 }
 
 /* モーション軽減設定への配慮 */
@@ -154,30 +198,34 @@ body.single,
   }
 }
 
-/* スマホ表示用：ギャラリーを画面幅いっぱいに広げる調整 */
+/* ギャラリーを画面幅いっぱいに広げる調整 */
+.mno-pm-article__section.mno-pm-article__gallery {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+  max-width: none;
+  border-bottom: none;
+}
+
+.mno-pm-article__section.mno-pm-article__gallery .mno-gallery {
+  width: 100%;
+  margin: 0;
+  border-radius: 18px;
+}
+
+.mno-pm-article__section.mno-pm-article__gallery .mno-gallery-slide {
+  padding: 0;
+}
+
+.mno-pm-article__section.mno-pm-article__gallery .mno-gallery img {
+  width: 100%;
+  border-radius: 18px;
+}
+
 @media (max-width: 768px) {
-  .mno-pm-article__section.mno-pm-article__gallery {
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding-left: 0;
-    padding-right: 0;
-	max-width: none;
-  }
-
-  .mno-pm-article__section.mno-pm-article__gallery .mno-gallery {
-    width: 100vw;
-	margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    border-radius: 6px;
-  }
-
-  .mno-pm-article__section.mno-pm-article__gallery .mno-gallery-slide {
-    padding: 0;
-  }
-
+  .mno-pm-article__section.mno-pm-article__gallery .mno-gallery,
   .mno-pm-article__section.mno-pm-article__gallery .mno-gallery img {
-    width: 100vw;
-    border-radius: 6px;
+    border-radius: 14px;
   }
 }
 
@@ -186,17 +234,18 @@ body.single,
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(15, 23, 42, 0.7);
-  color: #fff;
-  border: none;
-  width: 40px;
-  height: 40px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--mno-heading);
+  border: 1px solid var(--mno-divider);
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   z-index: 2;
+  box-shadow: 0 10px 24px rgba(12, 74, 110, 0.12);
 }
 /* ギャラリー矢印（タップしやすい半透明ボタン） */
 .mno-gallery .slick-prev,
@@ -205,17 +254,27 @@ body.single,
    top: 50%;
   bottom: auto;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-  color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--mno-accent-strong);
+  box-shadow: 0 8px 20px rgba(12, 74, 110, 0.12);
   display: grid;
   place-items: center;
   z-index: 10;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 0;
+  border: 1px solid var(--mno-divider);
+}
+
+.mno-pm-slider__nav:hover,
+.mno-pm-slider__nav:focus-visible,
+.mno-gallery-arrow:hover,
+.mno-gallery-arrow:focus-visible {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.04);
+  box-shadow: 0 14px 26px rgba(12, 74, 110, 0.16);
 }
 
 .mno-gallery .slick-prev:hover,
@@ -271,23 +330,24 @@ body.single,
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
+  background: rgba(105, 188, 215, 0.25);
+  border: 1px solid var(--mno-divider);
   padding: 0;
   cursor: pointer;
 }
 
 /* アクティブドットの色分け */
 .mno-pm-slider__dot.is-active {
-  background: #f38ad5;
+  background: var(--mno-accent);
 }
 
 /* 購入セクション全体（スマホでは縦に積む） */
 .mno-pm-article__purchase {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  align-items: stretch;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
 }
 
 /* 価格カード（スマホ中央寄せのカードレイアウト） */
@@ -297,20 +357,20 @@ body.single,
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 4px;
-  padding: 14px 16px;
+  gap: 6px;
+  padding: 0;
   margin: 0;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
-  width: 100%;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  width: auto;
 }
 
 /* セール価格表示（スマホでも大きく強調） */
 .mno-pm-price__sale {
-  font-size: clamp(1.8rem, 6vw, 2.3rem);
-  color: #dc2626;
+  font-size: clamp(2.1rem, 6vw, 2.6rem);
+  color: var(--mno-heading);
   font-weight: 700;
   display: flex;
   flex-wrap: wrap;
@@ -326,8 +386,8 @@ body.single,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #fee2e2;
-  color: #b91c1c;
+  background: rgba(105, 188, 215, 0.14);
+  color: var(--mno-accent-strong);
   padding: 2px 12px;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -337,8 +397,8 @@ body.single,
 
 /* 通常価格（スマホで折り返しても見やすい控えめ表示） */
 .mno-pm-price__normal {
-  font-size: 0.95rem;
-  color: #9ca3af;
+  font-size: 1rem;
+  color: var(--mno-muted);
   text-decoration: line-through;
   margin: 0;
 }
@@ -347,17 +407,17 @@ body.single,
 .mno-pm-price__normal--only {
   text-decoration: none;
   font-weight: 600;
-  color: #111827;
-  font-size: 1.2rem;
+  color: var(--mno-heading);
+  font-size: 1.4rem;
 }
 
 /* セール終了文言（スマホで注意喚起する赤文字） */
 .mno-pm-price__end {
-  font-size: 0.9rem;
-  color: #dc2626;
+  font-size: 0.95rem;
+  color: var(--mno-muted);
   font-weight: 600;
   margin: 6px 0 0;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 
 /* 購入ボタン（スマホ全幅で押しやすい） */
@@ -366,18 +426,18 @@ body.single,
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
+  width: auto;
   max-width: 100%;
-  min-height: 48px;
-  padding: 14px 18px;
-  font-size: 1rem;
+  min-height: 40px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
   font-weight: 700;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #f38ad5, #6366f1);
-  color: #fff;
+  border-radius: 999px;
+  background: var(--mno-accent);
+  color: #0b1523;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 24px rgba(105, 188, 215, 0.25);
   box-sizing: border-box;
 }
 
@@ -385,7 +445,13 @@ body.single,
 .mno-pm-buy-button:hover,
 .mno-pm-buy-button:focus {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 16px 32px rgba(105, 188, 215, 0.35);
+  background: var(--mno-accent-strong);
+}
+
+.mno-pm-buy-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(105, 188, 215, 0.3);
 }
 
 /* 購入不可状態のボタン */
@@ -393,7 +459,8 @@ body.single,
   opacity: 0.5;
   cursor: not-allowed;
   box-shadow: none;
-  background: #9ca3af;
+  background: var(--mno-muted);
+  color: #fff;
 }
 
 /* PC表示用：購入エリアを横並びに変更 */
@@ -401,16 +468,16 @@ body.single,
 @media (min-width: 768px) {
   .mno-pm-article__purchase {
     flex-direction: row;
-    align-items: flex-start;
-    gap: 16px;
+    align-items: center;
+    gap: 18px;
   }
 
   .mno-pm-price {
     flex: 1;
-    align-items: flex-start;
-    text-align: left;
-    padding: 20px 24px;
-    gap: 6px;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    gap: 8px;
   }
 
   .mno-pm-price__sale {
@@ -425,18 +492,38 @@ body.single,
 /* トラック一覧カード群（スマホで縦積みグリッド） */
 .mno-pm-track-list {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  counter-reset: mno-track;
 }
 
 /* 各トラックの行カード（スマホで余白を確保） */
 .mno-pm-track-list__item {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px 18px;
-  line-height: 1.7;
+  background: transparent;
+  border: none;
+  padding: 4px 0 18px 0;
+  line-height: 1.8;
   display: grid;
-  gap: 8px;
+  gap: 6px;
+  position: relative;
+  border-bottom: 1px solid var(--mno-divider);
+  padding-left: 2.8rem;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.mno-pm-track-list__item::before {
+  counter-increment: mno-track;
+  content: counter(mno-track) ".";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  font-weight: 700;
+  color: var(--mno-heading);
+}
+
+.mno-pm-track-list__item:hover,
+.mno-pm-track-list__item:focus-within {
+  background: linear-gradient(90deg, rgba(105, 188, 215, 0.08), transparent);
+  transform: translateX(2px);
 }
 
 /* トラック見出し行（スマホでラベルと値を横並び） */
@@ -449,11 +536,20 @@ body.single,
   align-items: baseline;
 }
 
+.mno-pm-track-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  color: var(--mno-heading);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
 /* ラベル部分（スマホでも改行しやすい太字ラベル） */
 .mno-pm-track-list__label,
 .mno-pm-track-list__count-label {
   font-weight: 700;
-  color: #111827;
+  color: var(--mno-heading);
   white-space: normal;
   overflow-wrap: anywhere;
 }
@@ -462,18 +558,18 @@ body.single,
 .mno-pm-track-list__name,
 .mno-pm-track-list__count-value,
 .mno-pm-track-list__genres {
-  color: #1f2937;
+  color: var(--mno-text);
 }
 
 /* ジャンルテキスト（スマホで少し大きめ） */
 .mno-pm-track-list__genres {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
 /* スマホ表示用：トラックカードのパディング微調整 */
 @media (max-width: 599px) {
   .mno-pm-track-list__item {
-    padding: 14px 16px;
+    padding: 2px 0 16px 2.4rem;
   }
 
   /* スマホ表示用：ラベル行を折り返しやすくする */
@@ -490,7 +586,7 @@ body.single,
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: 14px;
   font-size: 1rem;
 }
 
@@ -499,14 +595,14 @@ body.single,
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* 項目ラベル（スマホでも幅を確保） */
 .mno-pm-list li span {
   min-width: 110px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--mno-muted);
 }
 
 /* 箇条書きリスト（スマホ向けドット表示） */
@@ -530,18 +626,19 @@ body.single,
 .mno-pm-list--numbered li span {
   min-width: auto;
   font-weight: 600;
-  color: #111827;
+  color: var(--mno-heading);
 }
 
 /* セリフブロック全体のカード */
 .mno-dialogue-block {
   display: grid;
   gap: 16px;
-  background: #f8fafc;
-  border-radius: 14px;
+  background: var(--mno-soft);
+  border-radius: 0;
   padding: 24px;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-	overflow-x: hidden;
+  box-shadow: none;
+  overflow-x: hidden;
+  border-left: 4px solid var(--mno-accent);
 }
 
 .mno-dialogue-image {
@@ -557,14 +654,14 @@ body.single,
 /* セリフブロックのメインタイトル */
 .mno-dialogue-block h2 {
   margin: 0;
-  font-size: 1.4rem;
-  color: #111827;
+  font-size: 1.3rem;
+  color: var(--mno-heading);
 }
 
 /* トラック説明文 */
 .mno-dialogue-block__track-description {
   margin: 0;
-  color: #374151;
+  color: var(--mno-text);
   line-height: 1.8;
 }
 
@@ -575,7 +672,7 @@ body.single,
   display: grid;
   gap: 8px;
   list-style: none;
-  color: #1f2937;
+  color: var(--mno-text);
 }
 
 /* サブ見出しリスト */
@@ -587,12 +684,12 @@ body.single,
 .mno-dialogue-block__subheadings h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #111827;
+  color: var(--mno-heading);
 }
 
 /* セリフ本文 */
 .mno-dialogue-block__body {
-  color: #111827;
+  color: var(--mno-text);
   line-height: 1.8;
 }
 
@@ -601,10 +698,10 @@ body.single,
 }
 
 .mno-speech-text {
-  background: #f7f7f7;
-  border-left: 3px solid #c7a5b0;
-  padding: 12px 14px;
-  border-radius: 8px;
+  background: var(--mno-soft);
+  border-left: 4px solid var(--mno-accent);
+  padding: 14px 16px;
+  border-radius: 0;
   line-height: 1.9;
 }
 
@@ -689,7 +786,7 @@ body.single,
 
 /* ラベルテキスト（長文も折り返し） */
 .mno-data-label-text {
-  color: #111827;
+  color: var(--mno-heading);
   overflow-wrap: anywhere;
 }
 
@@ -701,8 +798,8 @@ body.single,
   font-size: 0.85rem;
   padding: 2px 8px;
   border-radius: 999px;
-  background: #eef2ff;
-  color: #3730a3;
+  background: rgba(105, 188, 215, 0.14);
+  color: var(--mno-accent-strong);
   max-width: 100%;
   overflow: hidden;
 }
@@ -713,7 +810,7 @@ body.single,
   position: relative;
   height: 12px;
   border-radius: 999px;
-  background: #e5e7eb;
+  background: #edf2f7;
   overflow: hidden;
   width: 100%;
   max-width: 100%;
@@ -727,7 +824,7 @@ body.single,
   bottom: 0;
   width: var(--mno-bar-width, 0%);
   max-width: 100%;
-  background: linear-gradient(90deg, #f38ad5, #6366f1);
+  background: linear-gradient(90deg, #69bcd7, #3fa1c0);
   border-radius: 999px;
 }
 
@@ -736,7 +833,7 @@ body.single,
   grid-area: count;
   font-size: 1rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mno-heading);
   text-align: right;
 }
 
@@ -755,7 +852,7 @@ body.single,
   gap: 12px;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--mno-divider);
   width: 100%;
   max-width: 100%;
 }
@@ -778,7 +875,7 @@ body.single,
 /* 声優名セル */
 .mno-voice-name {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--mno-heading);
 }
 
 /* ボイス種別セル（ドット配置用） */
@@ -800,8 +897,8 @@ body.single,
 
 /* 利用可能ドットの強調色 */
 .mno-voice-dot.is-active {
-  background: #f38ad5;
-  border-color: #f38ad5;
+  background: var(--mno-accent);
+  border-color: var(--mno-accent);
 }
 
 /* スマホ専用のボイス表アコーディオン */
@@ -832,7 +929,7 @@ body.single,
   right: 0;
   height: 3px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #e5e7eb, #d1d5db);
+  background: linear-gradient(90deg, #e5e8ee, #d7e3ea);
 }
 
 /* 各レベルのステップカード */
@@ -852,14 +949,14 @@ body.single,
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  border: 3px solid #cbd5f5;
+  border: 3px solid rgba(105, 188, 215, 0.45);
   background: #ffffff;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .mno-level-dot.is-active {
-  background: #f38ad5;
-  border-color: #f38ad5;
+  background: var(--mno-accent);
+  border-color: var(--mno-accent);
   transform: scale(1.1);
 }
 
@@ -882,11 +979,11 @@ body.single,
 /* スマホ表示用：全体余白とボイス表レイアウトを最適化 */
 @media (max-width: 768px) {
   .mno-single {
-    padding: 16px 12px 64px;
+    padding: 32px 16px 80px;
   }
 
   .mno-pm-article__section {
-    padding: 20px;
+    padding: 12px 12px 28px;
   }
 
   .mno-dialogue-block {
@@ -898,7 +995,7 @@ body.single,
     height: 36px;
   }
 
-　.mno-gallery .slick-prev,
+  .mno-gallery .slick-prev,
   .mno-gallery .slick-next,
   .mno-gallery-arrow {
     opacity: 1;
@@ -907,8 +1004,8 @@ body.single,
   .mno-pm-list li span {
     min-width: 90px;
   }
-	
-	.mno-level-chart {
+
+  .mno-level-chart {
     gap: 8px;
     padding-top: 14px;
   }
@@ -989,7 +1086,7 @@ body.single,
     /* 声優名表示 */
     .mno-voice-mobile__name {
     font-size: 1rem;
-    color: #111827;
+    color: var(--mno-heading);
   }
 
     /* 対応ボイス種別の一覧 */
@@ -1061,7 +1158,7 @@ body.single,
     /* ボイス種別ラベル */
     .mno-voice-mobile__label {
     font-size: 0.95rem;
-    color: #1f2937;
+    color: var(--mno-text);
   }
 }
 
@@ -1151,7 +1248,7 @@ html, body {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 18px;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
 }
 
