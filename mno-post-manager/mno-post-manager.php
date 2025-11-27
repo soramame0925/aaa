@@ -868,6 +868,9 @@ final class MNO_Post_Manager {
         }
 
         $script_version = file_exists( __DIR__ . '/assets/frontend.js' ) ? filemtime( __DIR__ . '/assets/frontend.js' ) : '1.3.0';
+        $style_version  = file_exists( __DIR__ . '/assets/frontend.css' ) ? filemtime( __DIR__ . '/assets/frontend.css' ) : '1.3.0';
+
+        wp_enqueue_style( 'mno-pm-frontend', plugin_dir_url( __FILE__ ) . 'assets/frontend.css', [], $style_version );
         wp_enqueue_script( 'mno-pm-frontend', plugin_dir_url( __FILE__ ) . 'assets/frontend.js', [], $script_version, true );
         wp_localize_script(
             'mno-pm-frontend',
