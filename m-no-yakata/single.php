@@ -9,11 +9,7 @@
         <?php
         $custom_title = get_post_meta( get_the_ID(), '_mpm_custom_title', true );
         $display_title = '' !== $custom_title ? $custom_title : get_the_title();
-        $breadcrumb_url   = esc_url( home_url( '/' ) );
-        $breadcrumb_label = '← 一覧へ戻る';
-
         $title_markup  = '<section class="mno-pm-article__section mno-title-block">';
-        $title_markup .= '<a class="mno-breadcrumb" href="' . $breadcrumb_url . '">' . esc_html( $breadcrumb_label ) . '</a>';
         $title_markup .= '<h1 class="mno-single-title">' . esc_html( $display_title ) . '</h1>';
         $title_markup .= '</section>';
 
